@@ -20,13 +20,13 @@ class MasterState {
 
 		list<string> *advanceTime(int amount);
 		Company *getPlayerCompany();
-		list <Person *> *getKnownPeople();
+		vector <Person *> *getKnownPeople();
 	protected:
 	private:
 		Company *_playerCompany;
 		list<Company *> *_allCompanies;
 		list<Person *> *_allPeople;
-		list<Person *> *_knownPeople;
+		vector<Person *> *_knownPeople;
 		int _time;
 
 		vector<string> *_firstNames;

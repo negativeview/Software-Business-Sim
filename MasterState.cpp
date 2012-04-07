@@ -3,12 +3,13 @@
 #include "Person.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 MasterState::MasterState() {
 	this->_playerCompany = new Company("Testing Corp", 100000);
 	this->_allCompanies = new list<Company *>();
 	this->_allPeople = new list<Person *>();
-	this->_knownPeople = new list<Person *>();
+	this->_knownPeople = new vector<Person *>();
 	this->_time = 0;
 
 	this->_setupFirstNames();
@@ -21,7 +22,7 @@ Company *MasterState::getPlayerCompany() {
 	return this->_playerCompany;
 }
 
-list <Person *> *MasterState::getKnownPeople() {
+vector <Person *> *MasterState::getKnownPeople() {
 	return this->_knownPeople;
 }
 
@@ -34,10 +35,23 @@ list <string> *MasterState::advanceTime(int amount) {
 			this->_createPeople(1);
 		}
 
+		// Every two weeks, pay your people.
+		int totalPayout = 0;
+		if (this->_time % 14 == 0) {
+			list<Person *> *employees = this->_playerCompany->getEmployees();
+			for (list<Person *>::iterator it = employees->begin(); it != employees->end(); ++it) {
+				int salary = (*it)->getCurrentSalary();
+				this->_playerCompany->payWages(salary);
+				(*it)->addMoney(salary);
+				totalPayout += salary;
+			}
+			printf("Day %03d: Payed %d in salaries.\n", this->_time, totalPayout);
+		}
+
 		// Possibly/probably insert people into the known list.
 		for (list<Person *>::iterator it = this->_allPeople->begin(); it != this->_allPeople->end(); ++it) {
 			int found = 0;
-			for (list<Person *>::iterator it2 = this->_knownPeople->begin(); it2 != this->_knownPeople->end(); ++it2) {
+			for (vector<Person *>::iterator it2 = this->_knownPeople->begin(); it2 != this->_knownPeople->end(); ++it2) {
 				if (*it == *it2) {
 					found = 1;
 					break;
@@ -46,11 +60,11 @@ list <string> *MasterState::advanceTime(int amount) {
 			if (found == 0) {
 				if (rand() % 10) {
 					this->_knownPeople->push_back(*it);
+					printf("Day %03d: Discovered %s %s\n", this->_time, (*it)->getFirstName().c_str(), (*it)->getLastName().c_str());
 				}
 			}
 		}
 	}
-	this->_time += amount;
 }
 
 void MasterState::_setupLastNames() {
