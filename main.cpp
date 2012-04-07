@@ -192,8 +192,6 @@ void people_function(MasterState *masterState, const char *line) {
 		cout << index << ": " << currentPerson->getFirstName() << " " << currentPerson->getLastName();
 		if (currentPerson->getCompany())
 			printf(" (%s)", currentPerson->getCompany()->getName());
-		printf("\n   %02d Greed      %02d Initiative", currentPerson->getGreed(), currentPerson->getInitiative());
-		printf("\n   %02d Ambition   %02d Creativity", currentPerson->getAmbition(), currentPerson->getCreativity());
-		printf("\n\n");
+		printf("\n");
 	}
 }

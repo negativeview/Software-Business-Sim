@@ -15,6 +15,8 @@ class Company {
 		void addEmployee(Person *person);
 		list<Person *> *getEmployees();
 		void payWages(int wages);
+		void payOverhead(int overhead);
+		int getOverheadCost();
 		int getMoney();
 	protected:
 	private:

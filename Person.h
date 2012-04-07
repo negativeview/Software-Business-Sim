@@ -4,7 +4,11 @@
 #include <string>
 using std::string;
 
+#include <list>
+using std::list;
+
 class Company;
+class Trait;
 
 class Person {
 	public:
@@ -16,10 +20,6 @@ class Person {
 		void hire(Company *company);
 		Company *getCompany();
 
-		int getAmbition();
-		int getGreed();
-		int getInitiative();
-		int getCreativity();
 		int getCurrentSalary();
 		void setSalary(int amount);
 		void addMoney(int money);
@@ -32,11 +32,7 @@ class Person {
 		int _currentSalary;
 		Company *_company;
 
-		// Personality traits.
-		int _ambition;
-		int _greed;
-		int _initiative;
-		int _creativity;
+		list<Trait *> *_traits;
 };
 
 #endif

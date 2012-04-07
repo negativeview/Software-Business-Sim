@@ -25,6 +25,25 @@ void Company::payWages(int wages) {
 	this->_money -= wages;
 }
 
+void Company::payOverhead(int overhead) {
+	this->_money -= overhead;
+}
+
+int Company::getOverheadCost() {
+	// No matter what, you cannot get away scot free.
+	int overhead = 1;
+
+	overhead += this->_employees->size() * 10;
+
+	// Every 10 days something random happens.
+	// The higher your everyday costs, the more
+	// an occurence costs.
+	if (rand() % 10 == 0)
+		overhead *= (rand() % 100) / 50.0;
+
+	return overhead;
+}
+
 int Company::getMoney() {
 	return this->_money;
 }

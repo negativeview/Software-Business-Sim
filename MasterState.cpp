@@ -48,6 +48,10 @@ list <string> *MasterState::advanceTime(int amount) {
 			printf("Day %03d: Payed %d in salaries.\n", this->_time, totalPayout);
 		}
 
+		int overheadCost = this->_playerCompany->getOverheadCost();
+		printf("Day %03d: Payed %d in random costs.\n", this->_time, overheadCost);
+		this->_playerCompany->payOverhead(overheadCost);
+
 		// Possibly/probably insert people into the known list.
 		for (list<Person *>::iterator it = this->_allPeople->begin(); it != this->_allPeople->end(); ++it) {
 			int found = 0;
@@ -69,14 +73,18 @@ list <string> *MasterState::advanceTime(int amount) {
 
 void MasterState::_setupLastNames() {
 	this->_lastNames = new vector<string>();
-	this->_lastNames->push_back("Grace");
-	this->_lastNames->push_back("Seeman");
-	this->_lastNames->push_back("Pepper");
+	this->_lastNames->push_back("Anderson");
 	this->_lastNames->push_back("Gohde");
+	this->_lastNames->push_back("Grace");
+	this->_lastNames->push_back("Miller");
+	this->_lastNames->push_back("Pepper");
+	this->_lastNames->push_back("Seemann");
+	this->_lastNames->push_back("Wolever");
 }
 
 void MasterState::_setupFirstNames() {
 	this->_firstNames = new vector<string>();
+	this->_firstNames->push_back("Alice");
 	this->_firstNames->push_back("Barbara");
 	this->_firstNames->push_back("Brianna");
 	this->_firstNames->push_back("Charles");
@@ -90,6 +98,7 @@ void MasterState::_setupFirstNames() {
 	this->_firstNames->push_back("Jeremy");
 	this->_firstNames->push_back("John");
 	this->_firstNames->push_back("Joseph");
+	this->_firstNames->push_back("Julia");
 	this->_firstNames->push_back("Linda");
 	this->_firstNames->push_back("Maria");
 	this->_firstNames->push_back("Mark");
