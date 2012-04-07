@@ -1,5 +1,8 @@
 #include "Trait.h"
 
+#include <sstream>
+using std::stringstream;
+
 Trait::Trait(string name, int amount) {
 	this->_amount = amount;
 	this->_name = name;
@@ -12,6 +15,8 @@ int Trait::influenceOnSalaryRequirements() {
 
 void Trait::discoverMore() {
 	this->_discoveryLevel++;
+	if (this->_discoveryLevel > 2)
+		this->_discoveryLevel = 2;
 }
 
 string Trait::getName() {
@@ -19,7 +24,15 @@ string Trait::getName() {
 }
 
 string Trait::getDiscoveryModifiedText() {
+	stringstream tmp;
+	string ret;
+
 	switch (this->_discoveryLevel) {
+		case 2:
+			tmp << this->_amount;
+			tmp >> ret;
+			return ret;
+			break;
 		case 1:
 			if (this->_amount < 10)
 				return "< 10";
