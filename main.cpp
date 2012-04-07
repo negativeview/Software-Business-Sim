@@ -3,8 +3,9 @@
 #include <string.h>
 #include "linenoise.h"
 #include "Company.h"
-#include "Person.h"
 #include "MasterState.h"
+#include "Person.h"
+#include "Trait.h"
 
 #include <list>
 using std::list;
@@ -192,6 +193,12 @@ void people_function(MasterState *masterState, const char *line) {
 		cout << index << ": " << currentPerson->getFirstName() << " " << currentPerson->getLastName();
 		if (currentPerson->getCompany())
 			printf(" (%s)", currentPerson->getCompany()->getName());
+
+		list<Trait *> *personTraits = currentPerson->getTraits();
+		for (list<Trait *>::iterator it2 = personTraits->begin(); it2 != personTraits->end(); ++it2) {
+			Trait *t = *it2;
+			printf("\n   %10s: %s", t->getName().c_str(), t->getDiscoveryModifiedText().c_str());
+		}
 		printf("\n");
 	}
 }

@@ -6,13 +6,18 @@ using std::string;
 
 class Trait {
 	public:
-		Trait(string name);
+		Trait(string name, int amount);
 		~Trait();
 
 		virtual int influenceOnSalaryRequirements();
+		string getDiscoveryModifiedText();
+		void discoverMore();
+		string getName();
 	protected:
-	private:
+		int _amount;
 		string _name;
+		int _discoveryLevel;
+	private:
 };
 
 #endif

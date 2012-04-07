@@ -11,7 +11,6 @@ class AmbitionTrait : public Trait {
 		int influenceOnSalaryRequirements();
 	protected:
 	private:
-		int _amount;
 };
 
 #endif

@@ -59,6 +59,10 @@ bool Person::acceptWages(int money) {
 	return false;
 }
 
+list<Trait *> *Person::getTraits() {
+	return this->_traits;
+}
+
 void Person::addMoney(int money) {
 	this->_money += money;
 }

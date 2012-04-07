@@ -24,6 +24,7 @@ class Person {
 		void setSalary(int amount);
 		void addMoney(int money);
 		bool acceptWages(int money);
+		list<Trait *> *getTraits();
 	protected:
 	private:
 		string _firstName;

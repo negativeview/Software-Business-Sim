@@ -1,6 +1,7 @@
 #include "MasterState.h"
 #include "Company.h"
 #include "Person.h"
+#include "Trait.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -68,12 +69,27 @@ list <string> *MasterState::advanceTime(int amount) {
 				}
 			}
 		}
+
+		for (vector<Person *>::iterator it = this->_knownPeople->begin(); it != this->_knownPeople->end(); ++it) {
+			Person *person = *it;
+			if (rand() % 10 == 0) {
+				list<Trait *> *allTraits = person->getTraits();
+				for (list<Trait *>::iterator it2 = allTraits->begin(); it2 != allTraits->end(); ++it2) {
+					Trait *t = *it2;
+					if (rand() % 10 == 0) {
+						t->discoverMore();
+						printf("Day %03d: Learned more about the %s of %s %s\n", this->_time, t->getName().c_str(), person->getFirstName().c_str(), person->getLastName().c_str());
+					}
+				}
+			}
+		}
 	}
 }
 
 void MasterState::_setupLastNames() {
 	this->_lastNames = new vector<string>();
 	this->_lastNames->push_back("Anderson");
+	this->_lastNames->push_back("Anniston");
 	this->_lastNames->push_back("Gohde");
 	this->_lastNames->push_back("Grace");
 	this->_lastNames->push_back("Miller");
@@ -101,6 +117,7 @@ void MasterState::_setupFirstNames() {
 	this->_firstNames->push_back("Julia");
 	this->_firstNames->push_back("Linda");
 	this->_firstNames->push_back("Maria");
+	this->_firstNames->push_back("Markus");
 	this->_firstNames->push_back("Mark");
 	this->_firstNames->push_back("Mary");
 	this->_firstNames->push_back("Michael");

@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-AmbitionTrait::AmbitionTrait(int amount) : Trait("Ambition") {
-	this->_amount = amount;
+AmbitionTrait::AmbitionTrait(int amount) : Trait("Ambition", amount) {
 }
 
 int AmbitionTrait::influenceOnSalaryRequirements() {
