@@ -1,21 +1,24 @@
 #ifndef PERSON_H
 #define PERSON_H
 
+#include <string>
+using std::string;
+
 class Company;
 
 class Person {
 	public:
-		Person(const char *firstName, const char *lastName, int money);
+		Person(string firstName, string lastName, int money);
 		~Person();
 
-		const char *getFirstName();
-		const char *getLastName();
+		string getFirstName();
+		string getLastName();
 		void hire(Company *company);
 		Company *getCompany();
 	protected:
 	private:
-		char *_firstName;
-		char *_lastName;
+		string _firstName;
+		string _lastName;
 		int _money;
 		Company *_company;
 };
