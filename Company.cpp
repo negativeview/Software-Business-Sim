@@ -13,6 +13,22 @@ void Company::addEmployee(Person *person) {
 	this->_employees->push_back(person);
 }
 
+void Company::doPayments(int time) {
+	// Every two weeks, pay your people.
+	int totalPayout = 0;
+	if (time % 14 == 0) {
+		for (list<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
+			int salary = (*it)->getCurrentSalary();
+			this->payWages(salary);
+			(*it)->addMoney(salary);
+			totalPayout += salary;
+		}
+	}
+
+	int overheadCost = this->getOverheadCost();
+	this->payOverhead(overheadCost);
+}
+
 const char *Company::getName() {
 	return this->_name;
 }

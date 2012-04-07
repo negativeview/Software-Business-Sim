@@ -18,6 +18,7 @@ class Company {
 		void payOverhead(int overhead);
 		int getOverheadCost();
 		int getMoney();
+		void doPayments(int time);
 	protected:
 	private:
 		char *_name;

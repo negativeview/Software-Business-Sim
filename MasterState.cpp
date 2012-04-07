@@ -9,6 +9,7 @@
 MasterState::MasterState() {
 	this->_playerCompany = new Company("Testing Corp", 100000);
 	this->_allCompanies = new list<Company *>();
+	this->_allCompanies->push_back(this->_playerCompany);
 	this->_allPeople = new list<Person *>();
 	this->_knownPeople = new vector<Person *>();
 	this->_time = 0;
@@ -36,22 +37,10 @@ list <string> *MasterState::advanceTime(int amount) {
 			this->_createPeople(1);
 		}
 
-		// Every two weeks, pay your people.
-		int totalPayout = 0;
-		if (this->_time % 14 == 0) {
-			list<Person *> *employees = this->_playerCompany->getEmployees();
-			for (list<Person *>::iterator it = employees->begin(); it != employees->end(); ++it) {
-				int salary = (*it)->getCurrentSalary();
-				this->_playerCompany->payWages(salary);
-				(*it)->addMoney(salary);
-				totalPayout += salary;
-			}
-			printf("Day %03d: Payed %d in salaries.\n", this->_time, totalPayout);
+		for (list<Company *>::iterator it = this->_allCompanies->begin(); it != this->_allCompanies->end(); ++it) {
+			Company *c = *it;
+			c->doPayments(this->_time);
 		}
-
-		int overheadCost = this->_playerCompany->getOverheadCost();
-		printf("Day %03d: Payed %d in random costs.\n", this->_time, overheadCost);
-		this->_playerCompany->payOverhead(overheadCost);
 
 		// Possibly/probably insert people into the known list.
 		for (list<Person *>::iterator it = this->_allPeople->begin(); it != this->_allPeople->end(); ++it) {
