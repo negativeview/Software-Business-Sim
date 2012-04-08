@@ -222,13 +222,5 @@ void people_function(MasterState *masterState, const char *line) {
 			printf("\n   %10s: %s", t->getName().c_str(), t->getDiscoveryModifiedText().c_str());
 		}
 		printf("\n");
-
-		map<Platform  *, int> *platformSkills = currentPerson->getPlatformSkills();
-		for (map<Platform *, int>::iterator it = platformSkills->begin(); it != platformSkills->end(); ++it) {
-			Platform *platform = it->first;
-			int skill = it->second;
-
-			printf("    %10s: %d\n", platform->getName().c_str(), skill);
-		}
 	}
 }
