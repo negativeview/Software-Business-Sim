@@ -1,6 +1,7 @@
 #include "MasterState.h"
 #include "Company.h"
 #include "Person.h"
+#include "Platform.h"
 #include "Trait.h"
 
 #include <stdlib.h>
@@ -11,21 +12,17 @@ MasterState::MasterState() {
 	this->_allCompanies = new list<Company *>();
 	this->_allCompanies->push_back(this->_playerCompany);
 	this->_allPeople = new list<Person *>();
-	this->_knownPeople = new vector<Person *>();
 	this->_time = 0;
 
 	this->_setupFirstNames();
 	this->_setupLastNames();
+	this->_setupPlatforms();
 
 	this->_createPeople(5);
 }
 
 Company *MasterState::getPlayerCompany() {
 	return this->_playerCompany;
-}
-
-vector <Person *> *MasterState::getKnownPeople() {
-	return this->_knownPeople;
 }
 
 list <string> *MasterState::advanceTime(int amount) {
@@ -40,39 +37,35 @@ list <string> *MasterState::advanceTime(int amount) {
 		for (list<Company *>::iterator it = this->_allCompanies->begin(); it != this->_allCompanies->end(); ++it) {
 			Company *c = *it;
 			c->doPayments(this->_time);
-		}
 
-		// Possibly/probably insert people into the known list.
-		for (list<Person *>::iterator it = this->_allPeople->begin(); it != this->_allPeople->end(); ++it) {
-			int found = 0;
-			for (vector<Person *>::iterator it2 = this->_knownPeople->begin(); it2 != this->_knownPeople->end(); ++it2) {
-				if (*it == *it2) {
-					found = 1;
-					break;
+			for (list<Person *>::iterator it = this->_allPeople->begin(); it != this->_allPeople->end(); ++it) {
+				int found = 0;
+				vector<Person *> *knownPeople = c->getKnownPeople();
+				for (vector<Person *>::iterator it2 = knownPeople->begin(); it2 != knownPeople->end(); ++it2) {
+					if (*it == *it2) {
+						found = 1;
+						break;
+					}
 				}
-			}
-			if (found == 0) {
-				if (rand() % 10) {
-					this->_knownPeople->push_back(*it);
-					printf("Day %03d: Discovered %s %s\n", this->_time, (*it)->getFirstName().c_str(), (*it)->getLastName().c_str());
-				}
-			}
-		}
-
-		for (vector<Person *>::iterator it = this->_knownPeople->begin(); it != this->_knownPeople->end(); ++it) {
-			Person *person = *it;
-			if (rand() % 10 == 0) {
-				list<Trait *> *allTraits = person->getTraits();
-				for (list<Trait *>::iterator it2 = allTraits->begin(); it2 != allTraits->end(); ++it2) {
-					Trait *t = *it2;
-					if (rand() % 10 == 0) {
-						t->discoverMore();
-						printf("Day %03d: Learned more about the %s of %s %s\n", this->_time, t->getName().c_str(), person->getFirstName().c_str(), person->getLastName().c_str());
+				if (found == 0) {
+					if (rand() % 10) {
+						c->addKnownPerson(*it);
 					}
 				}
 			}
+
+			c->advanceTime(this->_time);
 		}
 	}
+}
+
+void MasterState::_setupPlatforms() {
+	this->_allPlatforms = new vector<Platform *>();
+	this->_allPlatforms->push_back(new Platform("desktop"));
+	this->_allPlatforms->push_back(new Platform("browser"));
+	this->_allPlatforms->push_back(new Platform("console"));
+	this->_allPlatforms->push_back(new Platform("mobile"));
+	this->_allPlatforms->push_back(new Platform("server"));
 }
 
 void MasterState::_setupLastNames() {
@@ -124,7 +117,14 @@ void MasterState::_createPeople(int count) {
 		string firstName = this->_getRandomName(this->_firstNames);
 		string lastName = this->_getRandomName(this->_lastNames);
 		int money = rand() % 100000;
-		this->_allPeople->push_back(new Person(firstName, lastName, money));
+
+		Person *p = new Person(firstName, lastName, money);
+
+		for (vector<Platform *>::iterator it = this->_allPlatforms->begin(); it != this->_allPlatforms->end(); ++it) {
+			p->setPlatformSkill(*it, rand() % 100);
+		}
+
+		this->_allPeople->push_back(p);
 	}
 }
 
@@ -144,6 +144,4 @@ MasterState::~MasterState() {
 	this->_allCompanies = NULL;
 	delete this->_allPeople;
 	this->_allPeople = NULL;
-	delete this->_knownPeople;
-	this->_knownPeople = NULL;
 }

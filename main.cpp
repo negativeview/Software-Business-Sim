@@ -5,6 +5,7 @@
 #include "Company.h"
 #include "MasterState.h"
 #include "Person.h"
+#include "Platform.h"
 #include "Trait.h"
 
 #include <list>
@@ -30,6 +31,7 @@ struct command {
 void help_function(MasterState *masterState, const char *);
 void quit_function(MasterState *masterState, const char *);
 void wait_function(MasterState *masterState, const char *);
+void status_function(MasterState *masterState, const char *);
 void hire_function(MasterState *masterState, const char *);
 void hire_autocomplete(MasterState *masterState, linenoiseCompletions *lc, const char *);
 void people_function(MasterState *masterState, const char *);
@@ -43,9 +45,9 @@ struct command commands[] = {
 		NULL
 	},
 	{
-		"quit",
-		quit_function,
-		"Quits the game.",
+		"status",
+		status_function,
+		"Shows a summary of the current status of the game.",
 		NULL
 	},
 	{
@@ -65,9 +67,15 @@ struct command commands[] = {
 		wait_function,
 		"Waits for a week.",
 		NULL
-	}
+	},
+	{
+		"quit",
+		quit_function,
+		"Quits the game.",
+		NULL
+	},
 };
-int num_commands = 5;
+int num_commands = 6;
 
 MasterState *masterState;
 
@@ -136,6 +144,20 @@ void help_function(MasterState *masterState, const char *line) {
 	}
 }
 
+void status_function(MasterState *masterState, const char *line) {
+	Company *playerCompany = masterState->getPlayerCompany();
+	int money = playerCompany->getMoney();
+	list<Person *> *employees = playerCompany->getEmployees();
+	map<Platform *, int> *platformSkills = playerCompany->getPlatformSkills();
+
+	printf("You current have %d money.\n", money);
+	printf("You have %d employees.\n", employees->size());
+	printf("Your skills in platforms are as follows:\n");
+	for (map<Platform *, int>::iterator it = platformSkills->begin(); it != platformSkills->end(); ++it) {
+		printf("\t%s: %d\n", it->first->getName().c_str(), it->second);
+	}
+}
+
 void wait_function(MasterState *masterState, const char *line) {
 	masterState->advanceTime(7);
 }
@@ -152,7 +174,7 @@ void hire_function(MasterState *masterState, const char *line) {
 		int realNumber = atoi(number);
 		int realSalary = atoi(salary);
 
-		vector <Person *> *allPeople = masterState->getKnownPeople();
+		vector <Person *> *allPeople = masterState->getPlayerCompany()->getKnownPeople();
 		if (realNumber != 0 && salary != 0 && realNumber <= allPeople->size()) {
 			Person *p = (*allPeople)[realNumber-1];
 			if (p->acceptWages(realSalary)) {
@@ -185,7 +207,7 @@ void quit_function(MasterState *masterState, const char *line) {
 void people_function(MasterState *masterState, const char *line) {
 	int index = 0;
 
-	vector<Person *> *allPeople = masterState->getKnownPeople();
+	vector<Person *> *allPeople = masterState->getPlayerCompany()->getKnownPeople();
 
 	for (vector<Person *>::iterator it = allPeople->begin(); it != allPeople->end(); ++it) {
 		++index;
@@ -200,5 +222,13 @@ void people_function(MasterState *masterState, const char *line) {
 			printf("\n   %10s: %s", t->getName().c_str(), t->getDiscoveryModifiedText().c_str());
 		}
 		printf("\n");
+
+		map<Platform  *, int> *platformSkills = currentPerson->getPlatformSkills();
+		for (map<Platform *, int>::iterator it = platformSkills->begin(); it != platformSkills->end(); ++it) {
+			Platform *platform = it->first;
+			int skill = it->second;
+
+			printf("    %10s: %d\n", platform->getName().c_str(), skill);
+		}
 	}
 }

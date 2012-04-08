@@ -4,6 +4,7 @@
 #include "GreedTrait.h"
 #include "InitiativeTrait.h"
 #include "Person.h"
+#include "Platform.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -15,6 +16,8 @@ Person::Person(string firstName, string lastName, int money) {
 	this->_company = NULL;
 	this->_currentSalary = 0;
 
+	this->_platformSkills = new map<Platform *, int>();
+
 	this->_traits = new list<Trait *>();
 	this->_traits->push_back(new AmbitionTrait(rand() % 100));
 	this->_traits->push_back(new GreedTrait(rand() % 100));
@@ -24,6 +27,10 @@ Person::Person(string firstName, string lastName, int money) {
 
 Company *Person::getCompany() {
 	return this->_company;
+}
+
+map<Platform *, int> *Person::getPlatformSkills() {
+	return this->_platformSkills;
 }
 
 void Person::hire(Company *company) {
@@ -57,6 +64,10 @@ bool Person::acceptWages(int money) {
 	if (money >= traitInfluence * randomInfluence)
 		return true;
 	return false;
+}
+
+void Person::setPlatformSkill(Platform *platform, int skill) {
+	(*this->_platformSkills)[platform] = skill;
 }
 
 list<Trait *> *Person::getTraits() {

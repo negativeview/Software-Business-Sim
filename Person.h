@@ -7,7 +7,11 @@ using std::string;
 #include <list>
 using std::list;
 
+#include <map>
+using std::map;
+
 class Company;
+class Platform;
 class Trait;
 
 class Person {
@@ -24,7 +28,9 @@ class Person {
 		void setSalary(int amount);
 		void addMoney(int money);
 		bool acceptWages(int money);
+		void setPlatformSkill(Platform *platform, int skill);
 		list<Trait *> *getTraits();
+		map<Platform *, int> *getPlatformSkills();
 	protected:
 	private:
 		string _firstName;
@@ -32,6 +38,7 @@ class Person {
 		int _money;
 		int _currentSalary;
 		Company *_company;
+		map<Platform *, int> *_platformSkills;
 
 		list<Trait *> *_traits;
 };
