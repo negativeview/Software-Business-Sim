@@ -1,0 +1,195 @@
+ABOUT
+=====
+
+This project is designed partially as a really hard turned-based
+time-management strategy and partially as some sort of commentary on the state
+of the computer industry. I'm not sure wehre the line is drawn, to be honest.
+It's probably different in different functions. I have no idea if it will be
+fun or not, I just had to get some of this out of my head.
+
+TUTORIAL
+========
+
+General Information
+-------------------
+
+You start with $100,000, no employees, no product, and no customers.
+
+The world starts completely hidden from you. So that the world isn't incredibly
+boring at first, the game goes ahead and simulates 10 days for you. Due to this,
+you don't start with your full $100,000, as you have paid a semi-random amount
+of money to keep the lights on in that time.
+
+Finding People
+--------------
+
+The first thing you should do is to see who you have available to hire. You do
+this by executing the 'people' command. You should see something like the below:
+
+day 10> people
+1: Alice Gohde
+     Ambition: medium
+        Greed: low
+   Initiative: medium
+   Creativity: high
+2: Richard Anniston
+     Ambition: low
+        Greed: medium
+   Initiative: medium
+   Creativity: medium
+3: Jeremy Anderson
+     Ambition: high
+        Greed: medium
+   Initiative: low
+   Creativity: medium
+4: Charles Anderson
+     Ambition: high
+        Greed: low
+   Initiative: high
+   Creativity: medium
+5: Paul Anderson
+     Ambition: high
+        Greed: medium
+   Initiative: low
+   Creativity: high
+6: Robert Wolever
+     Ambition: medium
+        Greed: medium
+   Initiative: high
+   Creativity: medium
+You have 99990 money left
+
+In the ten days that were randomly generated six people dropped their resumes
+on your desk. The skills that they have are vague, and potentially (very) wrong
+-- they are self-reported.
+
+Interviewing People
+-------------------
+
+It is planned that you will be able to interview people. This will make the
+skills more accurate, and will also make them based off of actual skill rather
+than self-reported skill (the interviewer can see through BS!). This feature is
+not in there yet, though. You have to hire someone based off of their
+self-reported evaluation!
+
+Hiring People
+-------------
+
+To hire people we need to offer them some amount of money. We do this with the
+hire command.
+
+day 10> hire 2 30000
+You have 99979 money left
+
+I hired person 2 (see numbers in the list from Finding People) for $30,000 per
+year. Steal!
+
+It's possible that if you offer them too little money, they will refuse. In the
+future, the employee will like your company less if you low-ball them.
+
+day 11> hire 5 1000
+Paul Anderson rejected your offer
+You have 99968 money left
+
+Time
+----
+
+Wait, did you notice that? We went to day 11! That's right, hiring a person
+takes up a day. It even takes up a day if the person refuses your offer!
+
+What does that matter?
+
+In the future, there will be AI opponents that might be hiring up all the good
+developers while you try to negotiate with just one. They might even just offer
+them $100,000 per year and be done with it just so you don't get that employee.
+There are a limited number of developers in the world (though they do slowly
+spawn).
+
+Every day you also have to pay a few bucks in random costs. Every two weeks you
+pay salaries. Wasting time can be the difference between empire and living under
+a bridge!
+
+Creating Projects
+-----------------
+
+Okay, so now you have an employee that you're paying. How in the world do you
+make them make you money? With the project command. To start you can just run
+it with no options:
+
+day 12> project
+Pick a target platform:
+	  1: desktop [Company skill: 96]
+	  2: browser [Company skill: 26]
+	  3: console [Company skill: 84]
+	  4: mobile [Company skill: 10]
+	  5: server [Company skill: 40]
+Then execute `project <n>`
+You have 99968 money left
+
+There are five target platforms that we can go for. We can also see what skill
+level we are at each one.
+
+NOTE: Right now this number is completely accurate. In the future it's likely
+      to start off as just "high, medium, low" and likely to start off as
+      reported skill and not actual skill just like when hiring an employee.
+      Don't get too used to this number being so freely shown.
+
+It seems that my one hired employee is excellent at making desktop applications,
+so let's do that. Re-run the command but with the number for the platform
+afterward:
+
+day 12> project 1
+Pick a target programming language:
+	  1: PHP [Company skill: 83]
+	  2: C [Company skill: 5]
+	  3: C++ [Company skill: 3]
+	  4: Python [Company skill: 83]
+	  5: JavaScript [Company skill: 87]
+	  6: Ruby [Company skill: 83]
+Then execute `project 1 <n>`
+You have 99968 money left
+
+Now we get to pick our language to write in. Our employee is fairly good in
+four different languages, but happens to be poor in both C and C++, which I
+would normally choose for desktop. Let's go with Python. It's not the highest
+rated skill, but it makes far more sense than JavaScript (hi there, Adobe Air!
+Yes, I know you exist. No, I don't wish to take back my statement.).
+
+In the future, it's likely that there will be internal mappings between
+language and platform that will act as modifiers. This would make a JavaScript
+desktop application be possible, but take longer than the raw numbers suggest.
+Currently such a thing does not exist.
+
+day 12> project 1 4
+Created a new project
+You have 99968 money left
+
+Now we have a project!
+
+STAY TUNED
+----------
+
+That's about all that I have. The project cannot actually generate you any
+money.
+
+TODO
+====
+
+* All skills are not the same. Skills that are in higher demand or lower supply
+  add more to the required amount of money. I should be able to tweak these
+  numbers. Since I'm using the real names of programming languages, I should
+  use approximations of their real values.
+* You can hire "low" ambition employees FAR too easily. Figure out a much
+  better formula for this.
+* Generate customers who have "skills" that are instead desires. You cannot
+  know for sure what these are, but can possibly stumble upon them.
+* Create a customer list per project.
+* Go from customer list to profit.
+* Billing methods added to list of selectable things.
+* Methods to make customers chase after cheap options -- simulate the
+  possibility of a race to the bottom.
+* Make projects actually complete slowly.
+* Job fairs should take up time but drastically increase the rate at which a
+  company discovers applicants.
+* Make opponent AI that can also hire people, etc.
+* Come up with a handful of really really stupid AIs.
