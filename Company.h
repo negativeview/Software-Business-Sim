@@ -10,6 +10,7 @@ using std::vector;
 #include <map>
 using std::map;
 
+class Language;
 class Person;
 class Platform;
 
@@ -31,6 +32,7 @@ class Company {
 		void learnAboutEmployees();
 		void advanceTime(int time);
 		map<Platform *, int> *getPlatformSkills();
+		map<Language *, int> *getLanguageSkills();
 	protected:
 		void recomputeCompanySkills();
 	private:
@@ -39,6 +41,7 @@ class Company {
 		list<Person *> *_employees;
 		vector<Person *> *_knownPeople;
 		map<Platform *, int> *_platformSkills;
+		map<Language *, int> *_languageSkills;
 };
 
 #endif

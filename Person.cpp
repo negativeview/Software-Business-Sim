@@ -3,6 +3,7 @@
 #include "CreativityTrait.h"
 #include "GreedTrait.h"
 #include "InitiativeTrait.h"
+#include "Language.h"
 #include "Person.h"
 #include "Platform.h"
 
@@ -17,6 +18,7 @@ Person::Person(string firstName, string lastName, int money) {
 	this->_currentSalary = 0;
 
 	this->_platformSkills = new map<Platform *, int>();
+	this->_languageSkills = new map<Language *, int>();
 
 	/**
 	 * A person has two sets of traits: actual and believed.
@@ -79,6 +81,10 @@ map<Platform *, int> *Person::getPlatformSkills() {
 	return this->_platformSkills;
 }
 
+map<Language *, int> *Person::getLanguageSkills() {
+	return this->_languageSkills;
+}
+
 void Person::hire(Company *company) {
 	this->_company = company;
 }
@@ -128,6 +134,10 @@ bool Person::acceptWages(int money) {
 
 void Person::setPlatformSkill(Platform *platform, int skill) {
 	(*this->_platformSkills)[platform] = skill;
+}
+
+void Person::setLanguageSkill(Language *language, int skill) {
+	(*this->_languageSkills)[language] = skill;
 }
 
 list<Trait *> *Person::getRealTraits() {

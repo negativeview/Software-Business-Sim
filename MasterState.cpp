@@ -1,5 +1,6 @@
 #include "MasterState.h"
 #include "Company.h"
+#include "Language.h"
 #include "Person.h"
 #include "Platform.h"
 #include "Trait.h"
@@ -17,6 +18,7 @@ MasterState::MasterState() {
 	this->_setupFirstNames();
 	this->_setupLastNames();
 	this->_setupPlatforms();
+	this->_setupLanguages();
 
 	this->_createPeople(5);
 }
@@ -61,6 +63,16 @@ list <string> *MasterState::advanceTime(int amount) {
 			c->advanceTime(this->_time);
 		}
 	}
+}
+
+void MasterState::_setupLanguages() {
+	this->_allLanguages = new vector<Language *>();
+	this->_allLanguages->push_back(new Language("PHP"));
+	this->_allLanguages->push_back(new Language("C"));
+	this->_allLanguages->push_back(new Language("C++"));
+	this->_allLanguages->push_back(new Language("Python"));
+	this->_allLanguages->push_back(new Language("JavaScript"));
+	this->_allLanguages->push_back(new Language("Ruby"));
 }
 
 void MasterState::_setupPlatforms() {
@@ -126,6 +138,10 @@ void MasterState::_createPeople(int count) {
 
 		for (vector<Platform *>::iterator it = this->_allPlatforms->begin(); it != this->_allPlatforms->end(); ++it) {
 			p->setPlatformSkill(*it, rand() % 100);
+		}
+
+		for (vector<Language *>::iterator it2 = this->_allLanguages->begin(); it2 != this->_allLanguages->end(); ++it2) {
+			p->setLanguageSkill(*it2, rand() % 100);
 		}
 
 		this->_allPeople->push_back(p);

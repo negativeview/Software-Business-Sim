@@ -11,6 +11,7 @@ using std::string;
 using std::vector;
 
 class Company;
+class Language;
 class Person;
 class Platform;
 
@@ -26,16 +27,17 @@ class MasterState {
 		Company *_playerCompany;
 		list<Company *> *_allCompanies;
 		list<Person *> *_allPeople;
-		//vector<Person *> *_knownPeople;
 		int _time;
 
 		vector<string> *_firstNames;
 		vector<string> *_lastNames;
 		vector<Platform *> *_allPlatforms;
+		vector<Language *> *_allLanguages;
 
 		void _setupFirstNames();
 		void _setupLastNames();
 		void _setupPlatforms();
+		void _setupLanguages();
 		void _createPeople(int count);
 		string _getRandomName(vector<string> *nameList);
 };

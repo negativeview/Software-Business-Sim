@@ -3,6 +3,7 @@
 #include <string.h>
 #include "linenoise.h"
 #include "Company.h"
+#include "Language.h"
 #include "MasterState.h"
 #include "Person.h"
 #include "Platform.h"
@@ -156,6 +157,14 @@ void status_function(MasterState *masterState, const char *line) {
 	printf("Your skills in platforms are as follows:\n");
 	for (map<Platform *, int>::iterator it = platformSkills->begin(); it != platformSkills->end(); ++it) {
 		printf("\t%s: %d\n", it->first->getName().c_str(), it->second);
+	}
+
+	map<Language *, int> *languageSkills = playerCompany->getLanguageSkills();
+	printf("Your skills in languages are as follows:\n");
+	for (map<Language *, int>::iterator it2 = languageSkills->begin(); it2 != languageSkills->end(); ++it2) {
+		Language *l = it2->first;
+		int skill = it2->second;
+		printf("\t%s: %d\n", l->getName().c_str(), skill);
 	}
 }
 

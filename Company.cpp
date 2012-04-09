@@ -1,4 +1,5 @@
 #include "Company.h"
+#include "Language.h"
 #include "Person.h"
 #include "Platform.h"
 #include "Trait.h"
@@ -13,6 +14,7 @@ Company::Company(const char *name, int money) {
 	this->_employees = new list<Person *>();
 	this->_knownPeople = new vector<Person *>();
 	this->_platformSkills = new map<Platform *, int>();
+	this->_languageSkills = new map<Language *, int>();
 }
 
 void Company::addEmployee(Person *person) {
@@ -55,10 +57,34 @@ void Company::recomputeCompanySkills() {
 	for (map<Platform *, int>::iterator it3 = tmpSkillListTotals.begin(); it3 != tmpSkillListTotals.end(); ++it3) {
 		(*this->_platformSkills)[it3->first] = ((it3->second / this->_employees->size()) + highestSkill[it3->first]) / 2;
 	}
+
+	map<Language *, int> tmpLanguageListTotals;
+	map<Language *, int> highestLanguage;
+
+	for (list<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
+		Person *employee = *it;
+		map<Language *, int> *employeeLanguageSkills = employee->getLanguageSkills();
+		for (map<Language *, int>::iterator it2 = employeeLanguageSkills->begin(); it2 != employeeLanguageSkills->end(); ++it2) {
+			int existingSkill = tmpLanguageListTotals[it2->first];
+			existingSkill += it2->second;
+			tmpLanguageListTotals[it2->first] = existingSkill;
+
+			if (it2->second > highestLanguage[it2->first])
+				highestLanguage[it2->first] = it2->second;
+		}
+	}
+
+	for (map<Language *, int>::iterator it3 = tmpLanguageListTotals.begin(); it3 != tmpLanguageListTotals.end(); ++it3) {
+		(*this->_languageSkills)[it3->first] = ((it3->second / this->_employees->size()) + highestLanguage[it3->first]) / 2;
+	}
 }
 
 map<Platform *, int> *Company::getPlatformSkills() {
 	return this->_platformSkills;
+}
+
+map<Language *, int> *Company::getLanguageSkills() {
+	return this->_languageSkills;
 }
 
 void Company::advanceTime(int time) {

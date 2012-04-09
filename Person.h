@@ -11,6 +11,7 @@ using std::list;
 using std::map;
 
 class Company;
+class Language;
 class Platform;
 class Trait;
 
@@ -29,9 +30,11 @@ class Person {
 		void addMoney(int money);
 		bool acceptWages(int money);
 		void setPlatformSkill(Platform *platform, int skill);
+		void setLanguageSkill(Language *language, int skill);
 		list<Trait *> *getRealTraits();
 		list<Trait *> *getBelievedTraits();
 		map<Platform *, int> *getPlatformSkills();
+		map<Language *, int> *getLanguageSkills();
 	protected:
 	private:
 		string _firstName;
@@ -40,6 +43,7 @@ class Person {
 		int _currentSalary;
 		Company *_company;
 		map<Platform *, int> *_platformSkills;
+		map<Language *, int> *_languageSkills;
 
 		list<Trait *> *_actualTraits;
 		list<Trait *> *_believedTraits;
