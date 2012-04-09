@@ -187,6 +187,7 @@ void hire_function(MasterState *masterState, const char *line) {
 
 			// Hiring people takes time.
 			masterState->advanceTime(1);
+			free(tmp);
 			return;
 		}
 	}
