@@ -40,7 +40,8 @@ class Person {
 		Company *_company;
 		map<Platform *, int> *_platformSkills;
 
-		list<Trait *> *_traits;
+		list<Trait *> *_actualTraits;
+		list<Trait *> *_believedTraits;
 };
 
 #endif

@@ -18,11 +18,17 @@ Person::Person(string firstName, string lastName, int money) {
 
 	this->_platformSkills = new map<Platform *, int>();
 
-	this->_traits = new list<Trait *>();
-	this->_traits->push_back(new AmbitionTrait(rand() % 100));
-	this->_traits->push_back(new GreedTrait(rand() % 100));
-	this->_traits->push_back(new InitiativeTrait(rand() % 100));
-	this->_traits->push_back(new CreativityTrait(rand() % 100));
+	this->_actualTraits = new list<Trait *>();
+	this->_actualTraits->push_back(new AmbitionTrait(rand() % 100));
+	this->_actualTraits->push_back(new GreedTrait(rand() % 100));
+	this->_actualTraits->push_back(new InitiativeTrait(rand() % 100));
+	this->_actualTraits->push_back(new CreativityTrait(rand() % 100));
+
+	this->_believedTraits = new list<Trait *>();
+	this->_believedTraits->push_back(new AmbitionTrait(rand() % 100));
+	this->_believedTraits->push_back(new GreedTrait(rand() % 100));
+	this->_believedTraits->push_back(new InitiativeTrait(rand() % 100));
+	this->_believedTraits->push_back(new CreativityTrait(rand() % 100));
 }
 
 Company *Person::getCompany() {
@@ -55,7 +61,7 @@ int Person::getCurrentSalary() {
 
 bool Person::acceptWages(int money) {
 	int traitInfluence = 0;
-	for (list<Trait *>::iterator it = this->_traits->begin(); it != this->_traits->end(); ++it) {
+	for (list<Trait *>::iterator it = this->_believedTraits->begin(); it != this->_believedTraits->end(); ++it) {
 		traitInfluence += (*it)->influenceOnSalaryRequirements();
 	}
 
@@ -71,7 +77,7 @@ void Person::setPlatformSkill(Platform *platform, int skill) {
 }
 
 list<Trait *> *Person::getTraits() {
-	return this->_traits;
+	return this->_actualTraits;
 }
 
 void Person::addMoney(int money) {
