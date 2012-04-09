@@ -23,6 +23,14 @@ MasterState::MasterState() {
 	this->_createPeople(5);
 }
 
+vector<Platform *> *MasterState::getPlatforms() {
+	return this->_allPlatforms;
+}
+
+vector<Language *> *MasterState::getLanguages() {
+	return this->_allLanguages;
+}
+
 Company *MasterState::getPlayerCompany() {
 	return this->_playerCompany;
 }
@@ -148,6 +156,9 @@ void MasterState::_createPeople(int count) {
 	}
 }
 
+void MasterState::setNextHandler(void (*next_handler)(MasterState *masterState, const char *line)) {
+	this->_next_handler_pointer = next_handler;
+}
 
 string MasterState::_getRandomName(vector<string> *nameList) {
 	int length = nameList->size();

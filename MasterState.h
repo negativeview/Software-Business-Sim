@@ -22,6 +22,10 @@ class MasterState {
 
 		list<string> *advanceTime(int amount);
 		Company *getPlayerCompany();
+
+		vector<Platform *> *getPlatforms();
+		vector<Language *> *getLanguages();
+		void setNextHandler(void (*next_handler)(MasterState *masterState, const char *line));
 	protected:
 	private:
 		Company *_playerCompany;
@@ -40,6 +44,7 @@ class MasterState {
 		void _setupLanguages();
 		void _createPeople(int count);
 		string _getRandomName(vector<string> *nameList);
+		void (*_next_handler_pointer)(MasterState *masterState, const char *line);
 };
 
 #endif

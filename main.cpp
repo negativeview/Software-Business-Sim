@@ -32,6 +32,7 @@ struct command {
 void help_function(MasterState *masterState, const char *);
 void quit_function(MasterState *masterState, const char *);
 void wait_function(MasterState *masterState, const char *);
+void project_function(MasterState *masterState, const char *);
 void status_function(MasterState *masterState, const char *);
 void hire_function(MasterState *masterState, const char *);
 void hire_autocomplete(MasterState *masterState, linenoiseCompletions *lc, const char *);
@@ -70,13 +71,19 @@ struct command commands[] = {
 		NULL
 	},
 	{
+		"project",
+		project_function,
+		"Start a project.",
+		NULL
+	},
+	{
 		"quit",
 		quit_function,
 		"Quits the game.",
 		NULL
 	},
 };
-int num_commands = 6;
+int num_commands = 7;
 
 MasterState *masterState;
 
@@ -214,6 +221,24 @@ void hire_autocomplete(MasterState *masterState, linenoiseCompletions *lc, const
 void quit_function(MasterState *masterState, const char *line) {
 	delete masterState;
 	exit(0);
+}
+
+void choose_target_platform(MasterState *masterState, const char *line) {
+	
+}
+
+void project_function(MasterState *masterState, const char *line) {
+	vector<Platform *> *platforms = masterState->getPlatforms();
+
+	printf("Pick a target platform:\n");
+	int index = 0;
+	for (vector<Platform *>::iterator it = platforms->begin(); it != platforms->end(); ++it) {
+		Platform *p = *it;
+		++index;
+		printf("\t%3d: %s\n", index, p->getName().c_str());
+	}
+
+	masterState->setNextHandler(choose_target_platform);
 }
 
 void people_function(MasterState *masterState, const char *line) {
