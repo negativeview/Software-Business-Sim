@@ -214,10 +214,18 @@ void people_function(MasterState *masterState, const char *line) {
 		++index;
 		Person *currentPerson = *it;
 		cout << index << ": " << currentPerson->getFirstName() << " " << currentPerson->getLastName();
-		if (currentPerson->getCompany())
+		
+		Company *company = currentPerson->getCompany();
+		
+		if (company)
 			printf(" (%s)", currentPerson->getCompany()->getName());
 
-		list<Trait *> *personTraits = currentPerson->getTraits();
+		list<Trait *> *personTraits;
+		if (company && company == masterState->getPlayerCompany())
+			personTraits = currentPerson->getRealTraits();
+		else
+			personTraits = currentPerson->getBelievedTraits();
+		
 		for (list<Trait *>::iterator it2 = personTraits->begin(); it2 != personTraits->end(); ++it2) {
 			Trait *t = *it2;
 			printf("\n   %10s: %s", t->getName().c_str(), t->getDiscoveryModifiedText().c_str());

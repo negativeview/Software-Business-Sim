@@ -76,8 +76,12 @@ void Person::setPlatformSkill(Platform *platform, int skill) {
 	(*this->_platformSkills)[platform] = skill;
 }
 
-list<Trait *> *Person::getTraits() {
+list<Trait *> *Person::getRealTraits() {
 	return this->_actualTraits;
+}
+
+list <Trait *> *Person::getBelievedTraits() {
+	return this->_believedTraits;
 }
 
 void Person::addMoney(int money) {

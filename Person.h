@@ -29,7 +29,8 @@ class Person {
 		void addMoney(int money);
 		bool acceptWages(int money);
 		void setPlatformSkill(Platform *platform, int skill);
-		list<Trait *> *getTraits();
+		list<Trait *> *getRealTraits();
+		list<Trait *> *getBelievedTraits();
 		map<Platform *, int> *getPlatformSkills();
 	protected:
 	private:

@@ -54,7 +54,7 @@ void Company::learnAboutEmployees() {
 	for (vector<Person *>::iterator it = this->_knownPeople->begin(); it != this->_knownPeople->end(); ++it) {
 		Person *person = *it;
 		if (rand() % 10 == 0) {
-			list<Trait *> *allTraits = person->getTraits();
+			list<Trait *> *allTraits = person->getRealTraits();
 			for (list<Trait *>::iterator it2 = allTraits->begin(); it2 != allTraits->end(); ++it2) {
 				Trait *t = *it2;
 				if (rand() % 10 == 0) {
