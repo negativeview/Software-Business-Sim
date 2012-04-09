@@ -1,25 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "linenoise.h"
 #include "Company.h"
-#include "Language.h"
 #include "MasterState.h"
-#include "Person.h"
-#include "Platform.h"
-#include "Trait.h"
 
-#include <list>
-using std::list;
+#include "linenoise.h"
 
-#include <vector>
-using std::vector;
-
-#include <string>
-using std::string;
-
-#include <iostream>
-using std::cout;
+#include <stdlib.h>
+#include <stdio.h>
 
 MasterState *masterState;
 
