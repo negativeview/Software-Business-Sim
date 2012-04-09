@@ -78,7 +78,7 @@ void Company::doPayments(int time) {
 	int totalPayout = 0;
 	if (time % 14 == 0) {
 		for (list<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
-			int salary = (*it)->getCurrentSalary();
+			int salary = (int)((*it)->getCurrentSalary() / 26.0);
 			this->payWages(salary);
 			(*it)->addMoney(salary);
 			totalPayout += salary;
