@@ -15,6 +15,15 @@ Company::Company(const char *name, int money) {
 	this->_knownPeople = new vector<Person *>();
 	this->_platformSkills = new map<Platform *, int>();
 	this->_languageSkills = new map<Language *, int>();
+	this->_allProjects = new vector<Project *>();
+}
+
+vector<Project *> *Company::getProjects() {
+	return this->_allProjects;
+}
+
+void Company::addProject(Project *p) {
+	this->_allProjects->push_back(p);
 }
 
 void Company::addEmployee(Person *person) {

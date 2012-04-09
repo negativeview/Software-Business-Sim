@@ -13,6 +13,7 @@ using std::map;
 class Language;
 class Person;
 class Platform;
+class Project;
 
 class Company {
 	public:
@@ -33,6 +34,8 @@ class Company {
 		void advanceTime(int time);
 		map<Platform *, int> *getPlatformSkills();
 		map<Language *, int> *getLanguageSkills();
+		vector<Project *> *getProjects();
+		void addProject(Project  *p);
 	protected:
 		void recomputeCompanySkills();
 	private:
@@ -40,6 +43,7 @@ class Company {
 		int _money;
 		list<Person *> *_employees;
 		vector<Person *> *_knownPeople;
+		vector<Project *> *_allProjects;
 		map<Platform *, int> *_platformSkills;
 		map<Language *, int> *_languageSkills;
 };

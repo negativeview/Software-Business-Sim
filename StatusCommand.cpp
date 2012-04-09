@@ -17,10 +17,12 @@ void StatusCommand::executeCommand(const char *line) {
 	Company *playerCompany = this->_masterState->getPlayerCompany();
 	int money = playerCompany->getMoney();
 	list<Person *> *employees = playerCompany->getEmployees();
+	vector<Project *> *projects = playerCompany->getProjects();
 	map<Platform *, int> *platformSkills = playerCompany->getPlatformSkills();
 
 	printf("You current have %d money.\n", money);
 	printf("You have %d employees.\n", employees->size());
+	printf("You have %d projects.\n", projects->size());
 	printf("Your skills in platforms are as follows:\n");
 	for (map<Platform *, int>::iterator it = platformSkills->begin(); it != platformSkills->end(); ++it) {
 		printf("\t%s: %d\n", it->first->getName().c_str(), it->second);
