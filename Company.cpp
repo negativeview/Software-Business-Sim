@@ -20,6 +20,21 @@ void Company::addEmployee(Person *person) {
 	this->recomputeCompanySkills();
 }
 
+/**
+ * Companies, just like people have skills. The skill of a company is based on
+ * the skill of the employees, but it's not a simple summing. No no, here's
+ * where some OMG biting comentary comes in. The formula is actually thus:
+ *
+ * average(maximum + average)
+ *
+ * That is, I take the average skill across all employees, add it to the maximum
+ * skill of all employees, and divide by two. This isn't *exactly* what I want,
+ * but it's the closest simple formula I've found. It satisfies my two biggest
+ * desires for this function:
+ *
+ * 1) Adding an idiot lowers the skill level, not increases it.
+ * 2) Adding someone smarter than all other employees raises the skill level.
+ */
 void Company::recomputeCompanySkills() {
 	map<Platform *, int> tmpSkillListTotals;
 	map<Platform *, int> highestSkill;
@@ -129,4 +144,8 @@ Company::~Company() {
 	this->_name = NULL;
 	delete this->_employees;
 	this->_employees = NULL;
+	delete this->_platformSkills;
+	this->_platformSkills = NULL;
+	delete this->_knownPeople;
+	this->_knownPeople = NULL;
 }

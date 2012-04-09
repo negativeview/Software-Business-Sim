@@ -18,17 +18,57 @@ Person::Person(string firstName, string lastName, int money) {
 
 	this->_platformSkills = new map<Platform *, int>();
 
-	this->_actualTraits = new list<Trait *>();
-	this->_actualTraits->push_back(new AmbitionTrait(rand() % 100));
-	this->_actualTraits->push_back(new GreedTrait(rand() % 100));
-	this->_actualTraits->push_back(new InitiativeTrait(rand() % 100));
-	this->_actualTraits->push_back(new CreativityTrait(rand() % 100));
-
+	/**
+	 * A person has two sets of traits: actual and believed.
+	 *
+	 * The actual traits are those that are used when we're calculating the
+	 * work being done. A person high in actual creativity will invent new
+	 * things or think outside the box.
+	 *
+	 * The believed traits are what the person believes to be true about
+	 * themselves. These will almost always be inflated, but can actually
+	 * be lower than reality. Believed traits are used to calculate how much
+	 * the person wants to be paid, what projects the person wants to be
+	 * involved with/run.
+	 *
+	 * The actual traits can be gleaned by the performance evaluations, etc.
+	 *
+	 * The believed traits can be somewhat gleaned by watching how the person
+	 * acts. There is no screen that will give you these numbers.
+	 *
+	 * The meta game is all about figuring out who knows their shit, who's
+	 * lying, and how to manage the differences between the two.
+	 */
+	this->_actualTraits   = new list<Trait *>();
 	this->_believedTraits = new list<Trait *>();
-	this->_believedTraits->push_back(new AmbitionTrait(rand() % 100));
-	this->_believedTraits->push_back(new GreedTrait(rand() % 100));
-	this->_believedTraits->push_back(new InitiativeTrait(rand() % 100));
-	this->_believedTraits->push_back(new CreativityTrait(rand() % 100));
+
+	int ambitionTrait = rand() % 100;
+	this->_actualTraits->push_back(new AmbitionTrait(ambitionTrait));
+	ambitionTrait += ((rand() % 20) - 5);
+	if (ambitionTrait > 100)
+		ambitionTrait = 100;
+	this->_believedTraits->push_back(new AmbitionTrait(ambitionTrait));
+
+	int greedTrait = rand() % 100;
+	this->_actualTraits->push_back(new GreedTrait(greedTrait));
+	greedTrait += ((rand() % 20) - 5);
+	if (greedTrait > 100)
+		greedTrait = 100;
+	this->_believedTraits->push_back(new GreedTrait(greedTrait));
+
+	int initiativeTrait = rand() % 100;
+	this->_actualTraits->push_back(new InitiativeTrait(initiativeTrait));
+	initiativeTrait += ((rand() % 20) - 5);
+	if (initiativeTrait > 100)
+		initiativeTrait = 100;
+	this->_believedTraits->push_back(new InitiativeTrait(initiativeTrait));
+
+	int creativityTrait = rand() % 100;
+	this->_actualTraits->push_back(new CreativityTrait(creativityTrait));
+	creativityTrait += ((rand() % 20) - 5);
+	if (creativityTrait > 100)
+		creativityTrait = 100;
+	this->_believedTraits->push_back(new CreativityTrait(creativityTrait));
 }
 
 Company *Person::getCompany() {
@@ -59,6 +99,20 @@ int Person::getCurrentSalary() {
 	return this->_currentSalary;
 }
 
+/**
+ * Will this person work for this amount of money? This is currently based
+ * entirely on their traits. Currently only ambition matters. Greed eventually
+ * will as well. Actually, there's a lot of things that I want to make matter
+ * eventually. One big problem is that right now a person will accept a lower
+ * paying job with no other benefit to them. I need to take into account
+ * their current salary, and the reputation of the company that's offering
+ * the money. I also plan on taking into account the amount of money that this
+ * person has stockpiled. There's a lot left before I can do that though
+ * (give the person bills, etc.).
+ *
+ * Basically, this is the simplest possible algorithm that seems to somewhat
+ * work. But in reality, it's horribly broken.
+ */
 bool Person::acceptWages(int money) {
 	int traitInfluence = 0;
 	for (list<Trait *>::iterator it = this->_believedTraits->begin(); it != this->_believedTraits->end(); ++it) {
@@ -89,4 +143,20 @@ void Person::addMoney(int money) {
 }
 
 Person::~Person() {
+	list<Trait *>::iterator traitIterator;
+	for (traitIterator = this->_believedTraits->begin(); traitIterator != this->_believedTraits->end(); ++traitIterator) {
+		Trait *t = *traitIterator;
+		delete t;
+	}	
+	delete this->_believedTraits;
+	this->_believedTraits = NULL;
+
+	for (traitIterator = this->_actualTraits->begin(); traitIterator != this->_actualTraits->end(); ++traitIterator) {
+		Trait *t = *traitIterator;
+		delete t;
+	}
+	delete this->_actualTraits;
+	this->_actualTraits = NULL;
+	delete this->_platformSkills;
+	this->_platformSkills = NULL;
 }

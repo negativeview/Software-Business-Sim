@@ -48,6 +48,10 @@ list <string> *MasterState::advanceTime(int amount) {
 					}
 				}
 				if (found == 0) {
+					// Every person that's not already known has a 1 in 10
+					// chance of becoming discovered by the company. This number
+					// needs to be tweaked as it causes way too many employees
+					// too early.
 					if (rand() % 10) {
 						c->addKnownPerson(*it);
 					}
@@ -142,6 +146,24 @@ MasterState::~MasterState() {
 	this->_playerCompany = NULL;
 	delete this->_allCompanies;
 	this->_allCompanies = NULL;
+
+	for (list<Person *>::iterator allPeopleIterator = this->_allPeople->begin(); allPeopleIterator != this->_allPeople->end(); ++allPeopleIterator) {
+		Person *p = *allPeopleIterator;
+		delete p;
+	}
 	delete this->_allPeople;
 	this->_allPeople = NULL;
+
+	for (vector<Platform *>::iterator platformIterator = this->_allPlatforms->begin(); platformIterator != this->_allPlatforms->end(); ++platformIterator) {
+		Platform *platform = *platformIterator;
+		delete platform;
+	}
+	delete this->_allPlatforms;
+	this->_allPlatforms = NULL;
+	delete this->_lastNames;
+	this->_lastNames = NULL;
+	delete this->_firstNames;
+	this->_firstNames = NULL;
+	delete this->_playerCompany;
+	this->_playerCompany = NULL;
 }

@@ -130,6 +130,7 @@ int main(int argc, char *argv[]) {
 		printf("You have %d money left\n", moneyLeft);
 		if (moneyLeft <= 0) {
 			printf("You have lost.\n");
+			delete masterState;
 			return 0;
 		}
 	}
@@ -202,6 +203,7 @@ void hire_autocomplete(MasterState *masterState, linenoiseCompletions *lc, const
 }
 
 void quit_function(MasterState *masterState, const char *line) {
+	delete masterState;
 	exit(0);
 }
 
@@ -225,7 +227,7 @@ void people_function(MasterState *masterState, const char *line) {
 			personTraits = currentPerson->getRealTraits();
 		else
 			personTraits = currentPerson->getBelievedTraits();
-		
+
 		for (list<Trait *>::iterator it2 = personTraits->begin(); it2 != personTraits->end(); ++it2) {
 			Trait *t = *it2;
 			printf("\n   %10s: %s", t->getName().c_str(), t->getDiscoveryModifiedText().c_str());

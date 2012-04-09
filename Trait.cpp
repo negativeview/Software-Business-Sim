@@ -23,6 +23,21 @@ string Trait::getName() {
 	return this->_name;
 }
 
+/**
+ * This needs a lot of tweaking. For one, the discovery level needs to be stored
+ * outside of the actual trait in order to promote reuse.
+ *
+ * The bigger challenge though is that this needs to be less predictable.
+ *
+ * I see more ranges here:
+ *
+ * 0) "unknown"
+ * 1) "high, medium, or low"
+ * 2-10) n-m where n and m are the right number +- rand() % (10 - x)
+ *
+ * A big challenge here then is that this text will have to be stored somewhere
+ * so that it doesn't fluctuate every time it's queried.
+ */
 string Trait::getDiscoveryModifiedText() {
 	stringstream tmp;
 	string ret;
