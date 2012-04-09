@@ -1,12 +1,19 @@
 #include "MasterState.h"
 #include "Company.h"
+#include "HelpCommand.h"
 #include "Language.h"
+#include "linenoise.h"
+#include "QuitCommand.h"
 #include "Person.h"
 #include "Platform.h"
 #include "Trait.h"
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
+#include <string>
+using std::string;
 
 MasterState::MasterState() {
 	this->_playerCompany = new Company("Testing Corp", 100000);
@@ -19,6 +26,7 @@ MasterState::MasterState() {
 	this->_setupLastNames();
 	this->_setupPlatforms();
 	this->_setupLanguages();
+	this->_setupCommands();
 
 	this->_createPeople(5);
 }
@@ -156,9 +164,42 @@ void MasterState::_createPeople(int count) {
 	}
 }
 
+void MasterState::executeCommand(const char *command) {
+	if (command[0] != '\0') {
+		int found = 0;
+		for (vector<CommandFunctor *>::iterator it = this->_allCommands->begin(); it != this->_allCommands->end(); ++it) {
+			CommandFunctor *commandFunctor = *it;
+			string prefix = commandFunctor->getPrefix();
+
+			if (strncmp(prefix.c_str(), command, strlen(prefix.c_str())) == 0) {
+				commandFunctor->executeCommand(command);
+				linenoiseHistoryAdd(command);
+				linenoiseHistorySave("history.txt");
+				return;
+			}
+		}
+	}
+}
+
+void MasterState::_setupCommands() {
+	this->_allCommands = new vector<CommandFunctor *>();
+	this->_allCommands->push_back(new HelpCommand(this));
+	this->_allCommands->push_back(new QuitCommand(this));
+}
+
+vector<CommandFunctor *> *MasterState::getCommands() {
+	return this->_allCommands;
+}
+
+/*
 void MasterState::setNextHandler(void (*next_handler)(MasterState *masterState, const char *line)) {
 	this->_next_handler_pointer = next_handler;
 }
+
+void (*)(MasterState *masterState, const char *line) *MasterState::getNextHandler() {
+	return this->_next_handler_pointer;
+}
+*/
 
 string MasterState::_getRandomName(vector<string> *nameList) {
 	int length = nameList->size();

@@ -10,6 +10,7 @@ using std::string;
 #include <vector>
 using std::vector;
 
+class CommandFunctor;
 class Company;
 class Language;
 class Person;
@@ -25,7 +26,12 @@ class MasterState {
 
 		vector<Platform *> *getPlatforms();
 		vector<Language *> *getLanguages();
+		vector<CommandFunctor *> *getCommands();
+		void executeCommand(const char *command);
+		/*
 		void setNextHandler(void (*next_handler)(MasterState *masterState, const char *line));
+		void (*getNextHandler(MasterState *masterState, const char *line))();
+		*/
 	protected:
 	private:
 		Company *_playerCompany;
@@ -37,9 +43,11 @@ class MasterState {
 		vector<string> *_lastNames;
 		vector<Platform *> *_allPlatforms;
 		vector<Language *> *_allLanguages;
+		vector<CommandFunctor *> *_allCommands;
 
 		void _setupFirstNames();
 		void _setupLastNames();
+		void _setupCommands();
 		void _setupPlatforms();
 		void _setupLanguages();
 		void _createPeople(int count);

@@ -117,21 +117,7 @@ int main(int argc, char *argv[]) {
 	masterState->advanceTime(10);
 
 	while((line = linenoise("command> ")) != NULL) {
-		if (line[0] != '\0') {
-			int found = 0;
-			for (int i = 0; i < num_commands; i++) {
-				struct command currentCommand = commands[i];
-				if (strncmp(currentCommand.shortName, line, strlen(currentCommand.shortName)) == 0) {
-					currentCommand.callback(masterState, line);
-					found = 1;
-				}
-			}
-			if (found == 0) {
-				printf("echo: '%s'\n", line);
-			}
-			linenoiseHistoryAdd(line);
-			linenoiseHistorySave("history.txt");
-		}
+		masterState->executeCommand(line);
 		free(line);
 
 		int moneyLeft = masterState->getPlayerCompany()->getMoney();
@@ -224,7 +210,7 @@ void quit_function(MasterState *masterState, const char *line) {
 }
 
 void choose_target_platform(MasterState *masterState, const char *line) {
-	
+	printf("Here, yay!");
 }
 
 void project_function(MasterState *masterState, const char *line) {
@@ -239,7 +225,7 @@ void project_function(MasterState *masterState, const char *line) {
 		printf("\t%3d: %s [Company skill: %d]\n", index, p->getName().c_str(), (*platformSkills)[p]);
 	}
 
-	masterState->setNextHandler(choose_target_platform);
+	//masterState->setNextHandler(choose_target_platform);
 }
 
 void people_function(MasterState *masterState, const char *line) {
