@@ -229,13 +229,14 @@ void choose_target_platform(MasterState *masterState, const char *line) {
 
 void project_function(MasterState *masterState, const char *line) {
 	vector<Platform *> *platforms = masterState->getPlatforms();
+	map<Platform *, int> *platformSkills = masterState->getPlayerCompany()->getPlatformSkills();
 
 	printf("Pick a target platform:\n");
 	int index = 0;
 	for (vector<Platform *>::iterator it = platforms->begin(); it != platforms->end(); ++it) {
 		Platform *p = *it;
 		++index;
-		printf("\t%3d: %s\n", index, p->getName().c_str());
+		printf("\t%3d: %s [Company skill: %d]\n", index, p->getName().c_str(), (*platformSkills)[p]);
 	}
 
 	masterState->setNextHandler(choose_target_platform);
