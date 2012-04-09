@@ -29,76 +29,7 @@ struct command {
 	void (*furtherOptions)(MasterState *masterState, linenoiseCompletions *lc, const char *);
 };
 
-void help_function(MasterState *masterState, const char *);
-void quit_function(MasterState *masterState, const char *);
-void wait_function(MasterState *masterState, const char *);
-void project_function(MasterState *masterState, const char *);
-void status_function(MasterState *masterState, const char *);
-void hire_function(MasterState *masterState, const char *);
-void hire_autocomplete(MasterState *masterState, linenoiseCompletions *lc, const char *);
-void people_function(MasterState *masterState, const char *);
-list <Person *> *createPeople();
-
-struct command commands[] = {
-	{
-		"help",
-		help_function,
-		"Lists the commands that are available.",
-		NULL
-	},
-	{
-		"status",
-		status_function,
-		"Shows a summary of the current status of the game.",
-		NULL
-	},
-	{
-		"people",
-		people_function,
-		"Shows all the people that exist in this world.",
-		NULL,
-	},
-	{
-		"hire",
-		hire_function,
-		"Hires a new employee.",
-		hire_autocomplete
-	},
-	{
-		"wait",
-		wait_function,
-		"Waits for a week.",
-		NULL
-	},
-	{
-		"project",
-		project_function,
-		"Start a project.",
-		NULL
-	},
-	{
-		"quit",
-		quit_function,
-		"Quits the game.",
-		NULL
-	},
-};
-int num_commands = 7;
-
 MasterState *masterState;
-
-void completion(const char *buf, linenoiseCompletions *lc) {
-	for (int i = 0; i < num_commands; i++) {
-		struct command currentCommand = commands[i];
-		if (strncmp(buf, currentCommand.shortName, strlen(buf)) == 0) {
-			linenoiseAddCompletion(lc, currentCommand.shortName);
-		}
-
-		if (currentCommand.furtherOptions != NULL) {
-			currentCommand.furtherOptions(masterState, lc, buf);
-		}
-	}
-}
 
 int main(int argc, char *argv[]) {
 	char *line;
@@ -110,7 +41,6 @@ int main(int argc, char *argv[]) {
 	printf("You are the proud CEO of a brand new company: %s\n\n", masterState->getPlayerCompany()->getName());
 	printf("You must make the best software (and the most money) using what you have been given.\n\n");
 
-	linenoiseSetCompletionCallback(completion);
 	linenoiseHistoryLoad("history.txt");
 
 	// Advance time by 10 days just so something interesting might happen.
@@ -129,14 +59,6 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	return 0;
-}
-
-void help_function(MasterState *masterState, const char *line) {
-	for (int i = 0; i < num_commands; i++) {
-		struct command currentCommand = commands[i];
-		printf("%s\n", currentCommand.shortName);
-		printf("\t%s\n", currentCommand.fullDesc);
-	}
 }
 
 void status_function(MasterState *masterState, const char *line) {
@@ -194,19 +116,7 @@ void hire_function(MasterState *masterState, const char *line) {
 			return;
 		}
 	}
-
-	printf("Who do you wish to hire?\n");
-	people_function(masterState, "people");
 	free(tmp);
-}
-
-void hire_autocomplete(MasterState *masterState, linenoiseCompletions *lc, const char *) {
-
-}
-
-void quit_function(MasterState *masterState, const char *line) {
-	delete masterState;
-	exit(0);
 }
 
 void choose_target_platform(MasterState *masterState, const char *line) {
