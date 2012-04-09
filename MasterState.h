@@ -28,10 +28,7 @@ class MasterState {
 		vector<Language *> *getLanguages();
 		vector<CommandFunctor *> *getCommands();
 		void executeCommand(const char *command);
-		/*
-		void setNextHandler(void (*next_handler)(MasterState *masterState, const char *line));
-		void (*getNextHandler(MasterState *masterState, const char *line))();
-		*/
+		int getTime();
 	protected:
 	private:
 		Company *_playerCompany;

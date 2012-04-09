@@ -6,7 +6,7 @@
 #include <vector>
 using std::vector;
 
-QuitCommand::QuitCommand(MasterState *masterState) : CommandFunctor(masterState, "quit") {
+QuitCommand::QuitCommand(MasterState *masterState) : CommandFunctor(masterState, "quit", "Quits the application.") {
 	
 }
 

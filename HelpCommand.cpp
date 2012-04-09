@@ -6,7 +6,7 @@
 #include <vector>
 using std::vector;
 
-HelpCommand::HelpCommand(MasterState *masterState) : CommandFunctor(masterState, "help") {
+HelpCommand::HelpCommand(MasterState *masterState) : CommandFunctor(masterState, "help", "You're looking at it.") {
 	
 }
 
@@ -15,6 +15,7 @@ void HelpCommand::executeCommand(const char *line) {
 	for (vector<CommandFunctor *>::iterator it = commands->begin(); it != commands->end(); ++it) {
 		CommandFunctor *command = *it;
 		printf("%s\n", command->getPrefix().c_str());
+		printf("\t%s\n", command->getFullDesc().c_str());
 	}
 }
 

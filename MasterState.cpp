@@ -1,12 +1,17 @@
 #include "MasterState.h"
 #include "Company.h"
 #include "HelpCommand.h"
+#include "HireCommand.h"
 #include "Language.h"
 #include "linenoise.h"
 #include "QuitCommand.h"
+#include "PeopleCommand.h"
 #include "Person.h"
 #include "Platform.h"
+#include "ProjectCommand.h"
+#include "StatusCommand.h"
 #include "Trait.h"
+#include "WaitCommand.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -29,6 +34,10 @@ MasterState::MasterState() {
 	this->_setupCommands();
 
 	this->_createPeople(5);
+}
+
+int MasterState::getTime() {
+	return this->_time;
 }
 
 vector<Platform *> *MasterState::getPlatforms() {
@@ -184,6 +193,11 @@ void MasterState::executeCommand(const char *command) {
 void MasterState::_setupCommands() {
 	this->_allCommands = new vector<CommandFunctor *>();
 	this->_allCommands->push_back(new HelpCommand(this));
+	this->_allCommands->push_back(new StatusCommand(this));
+	this->_allCommands->push_back(new PeopleCommand(this));
+	this->_allCommands->push_back(new ProjectCommand(this));
+	this->_allCommands->push_back(new HireCommand(this));
+	this->_allCommands->push_back(new WaitCommand(this));
 	this->_allCommands->push_back(new QuitCommand(this));
 }
 
