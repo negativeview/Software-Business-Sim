@@ -24,7 +24,7 @@ MasterState::MasterState() {
 	this->_playerCompany = new Company("Testing Corp", 100000);
 	this->_allCompanies = new list<Company *>();
 	this->_allCompanies->push_back(this->_playerCompany);
-	this->_allPeople = new list<Person *>();
+	this->_allWorkers = new list<Person *>();
 	this->_time = 0;
 
 	this->_setupFirstNames();
@@ -33,7 +33,7 @@ MasterState::MasterState() {
 	this->_setupLanguages();
 	this->_setupCommands();
 
-	this->_createPeople(5);
+	this->_createWorkers(5);
 }
 
 int MasterState::getTime() {
@@ -58,14 +58,14 @@ list <string> *MasterState::advanceTime(int amount) {
 
 		// One in ten chance of creating a new person.
 		if (rand() % 10 == 0) {
-			this->_createPeople(1);
+			this->_createWorkers(1);
 		}
 
 		for (list<Company *>::iterator it = this->_allCompanies->begin(); it != this->_allCompanies->end(); ++it) {
 			Company *c = *it;
 			c->doPayments(this->_time);
 
-			for (list<Person *>::iterator it = this->_allPeople->begin(); it != this->_allPeople->end(); ++it) {
+			for (list<Person *>::iterator it = this->_allWorkers->begin(); it != this->_allWorkers->end(); ++it) {
 				int found = 0;
 				vector<Person *> *knownPeople = c->getKnownPeople();
 				for (vector<Person *>::iterator it2 = knownPeople->begin(); it2 != knownPeople->end(); ++it2) {
@@ -210,7 +210,7 @@ void MasterState::_setupFirstNames() {
 	this->_firstNames->push_back("William");
 }
 
-void MasterState::_createPeople(int count) {
+void MasterState::_createWorkers(int count) {
 	for (int i = 0; i < count; i++) {
 		string firstName = this->_getRandomName(this->_firstNames);
 		string lastName = this->_getRandomName(this->_lastNames);
@@ -226,7 +226,7 @@ void MasterState::_createPeople(int count) {
 			p->setLanguageSkill(*it2, rand() % 100);
 		}
 
-		this->_allPeople->push_back(p);
+		this->_allWorkers->push_back(p);
 	}
 }
 
@@ -286,12 +286,12 @@ MasterState::~MasterState() {
 	delete this->_allCompanies;
 	this->_allCompanies = NULL;
 
-	for (list<Person *>::iterator allPeopleIterator = this->_allPeople->begin(); allPeopleIterator != this->_allPeople->end(); ++allPeopleIterator) {
-		Person *p = *allPeopleIterator;
+	for (list<Person *>::iterator allWorkersIterator = this->_allWorkers->begin(); allWorkersIterator != this->_allWorkers->end(); ++allWorkersIterator) {
+		Person *p = *allWorkersIterator;
 		delete p;
 	}
-	delete this->_allPeople;
-	this->_allPeople = NULL;
+	delete this->_allWorkers;
+	this->_allWorkers = NULL;
 
 	for (vector<Platform *>::iterator platformIterator = this->_allPlatforms->begin(); platformIterator != this->_allPlatforms->end(); ++platformIterator) {
 		Platform *platform = *platformIterator;

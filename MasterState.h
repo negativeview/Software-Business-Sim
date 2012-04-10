@@ -33,7 +33,7 @@ class MasterState {
 	private:
 		Company *_playerCompany;
 		list<Company *> *_allCompanies;
-		list<Person *> *_allPeople;
+		list<Person *> *_allWorkers;
 		int _time;
 
 		vector<string> *_firstNames;
@@ -47,7 +47,7 @@ class MasterState {
 		void _setupCommands();
 		void _setupPlatforms();
 		void _setupLanguages();
-		void _createPeople(int count);
+		void _createWorkers(int count);
 		string _getRandomName(vector<string> *nameList);
 		void (*_next_handler_pointer)(MasterState *masterState, const char *line);
 };
