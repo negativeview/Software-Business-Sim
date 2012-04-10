@@ -117,6 +117,7 @@ void MasterState::_setupLastNames() {
 	this->_lastNames->push_back("Anderson");
 	this->_lastNames->push_back("Anniston");
 	this->_lastNames->push_back("Birthler");
+	this->_lastNames->push_back("Bishop");
 	this->_lastNames->push_back("Bremer");
 	this->_lastNames->push_back("Cannon");
 	this->_lastNames->push_back("Compton");
