@@ -3,6 +3,8 @@
 
 #include "CommandFunctor.h"
 
+#include <menu.h>
+
 class MasterState;
 
 class HireCommand: public CommandFunctor {
@@ -13,6 +15,10 @@ class HireCommand: public CommandFunctor {
 		void executeCommand(const char *command);
 	protected:
 	private:
+		int doGetWage(Person *p);
+		Person *doHireMenu();
+		MENU *setupMenu();
+		WINDOW *setupWindow(MENU *my_menu);
 };
 
 #endif

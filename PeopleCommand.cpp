@@ -17,17 +17,14 @@ PeopleCommand::PeopleCommand(MasterState *masterState) : CommandFunctor(masterSt
 }
 
 void PeopleCommand::executeCommand(const char *line) {
-	int index = 0;
-
 	vector<Person *> *allPeople = this->_masterState->getPlayerCompany()->getKnownPeople();
 
 	for (vector<Person *>::iterator it = allPeople->begin(); it != allPeople->end(); ++it) {
-		++index;
 		Person *currentPerson = *it;
 
 		char message[100];
 
-		sprintf(message, "%03d: %s %s", index, currentPerson->getFirstName().c_str(), currentPerson->getLastName().c_str());
+		sprintf(message, "%s %s", currentPerson->getFirstName().c_str(), currentPerson->getLastName().c_str());
 		this->_masterState->addMessage(message);
 		
 		Company *company = currentPerson->getCompany();

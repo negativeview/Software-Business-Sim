@@ -30,12 +30,13 @@ int main(int argc, char *argv[]) {
 
 	initscr();
 
+	int currentDay = -1;
 	while(true) {
 		erase();
 		getmaxyx(stdscr, row, col);
 		attron(A_STANDOUT);
-		mvprintw(0, 0, " Money: %10d", moneyLeft);
-		for (int i = 18; i < col; ++i) {
+		mvprintw(0, 0, " Day: %03d Money: %10d", masterState->getTime(), moneyLeft);
+		for (int i = 27; i < col; ++i) {
 			printw(" ");
 		}
 		attroff(A_STANDOUT);
@@ -48,21 +49,21 @@ int main(int argc, char *argv[]) {
 
 		move(row - 1, 1);
 		attron(A_STANDOUT);
+		printw("A");
+		attroff(A_STANDOUT);
+		printw(" Applicants");
+
+		move(row - 1, 21);
+		attron(A_STANDOUT);
 		printw("I");
 		attroff(A_STANDOUT);
 		printw(" Interview");
 
-		move(row - 1, 21);
+		move(row - 1, 41);
 		attron(A_STANDOUT);
 		printw("S");
 		attroff(A_STANDOUT);
 		printw(" Status");
-
-		move(row - 1, 41);
-		attron(A_STANDOUT);
-		printw("A");
-		attroff(A_STANDOUT);
-		printw(" Applicants");
 
 		move(row - 1, 61);
 		attron(A_STANDOUT);
@@ -93,7 +94,10 @@ int main(int argc, char *argv[]) {
 		noecho();
 		int input = getch();
 
-		masterState->clearMessages();
+		if (masterState->getTime() != currentDay) {
+			masterState->clearMessages();
+			currentDay = masterState->getTime();
+		}
 		switch(input) {
 			case 'a':
 				masterState->executeCommand("applicants");
