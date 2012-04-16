@@ -29,11 +29,15 @@ class MasterState {
 		vector<CommandFunctor *> *getCommands();
 		void executeCommand(const char *command);
 		int getTime();
+		vector <char *> *getMessages();
+		void clearMessages();
+		void addMessage(const char *);
 	protected:
 	private:
 		Company *_playerCompany;
 		list<Company *> *_allCompanies;
 		list<Person *> *_allWorkers;
+		list<Person *> *_allConsumers;
 		int _time;
 
 		vector<string> *_firstNames;
@@ -42,11 +46,14 @@ class MasterState {
 		vector<Language *> *_allLanguages;
 		vector<CommandFunctor *> *_allCommands;
 
+		vector<char *> *_messages;
+
 		void _setupFirstNames();
 		void _setupLastNames();
 		void _setupCommands();
 		void _setupPlatforms();
 		void _setupLanguages();
+		void _setupConsumers();
 		void _createWorkers(int count);
 		string _getRandomName(vector<string> *nameList);
 		void (*_next_handler_pointer)(MasterState *masterState, const char *line);
