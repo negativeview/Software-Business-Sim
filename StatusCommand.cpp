@@ -20,20 +20,20 @@ void StatusCommand::executeCommand(const char *line) {
 	vector<Project *> *projects = playerCompany->getProjects();
 	map<Platform *, int> *platformSkills = playerCompany->getPlatformSkills();
 
-	printf("You current have %d money.\n", money);
-	printf("You have %lu employees.\n", employees->size());
-	printf("You have %lu projects.\n", projects->size());
-	printf("Your skills in platforms are as follows:\n");
-	for (map<Platform *, int>::iterator it = platformSkills->begin(); it != platformSkills->end(); ++it) {
-		printf("\t%s: %d\n", it->first->getName().c_str(), it->second);
-	}
+	char message[100];
+	sprintf(message, "You currently have %d money", money);
+	this->_masterState->addMessage(message);
 
-	map<Language *, int> *languageSkills = playerCompany->getLanguageSkills();
-	printf("Your skills in languages are as follows:\n");
-	for (map<Language *, int>::iterator it2 = languageSkills->begin(); it2 != languageSkills->end(); ++it2) {
-		Language *l = it2->first;
-		int skill = it2->second;
-		printf("\t%s: %d\n", l->getName().c_str(), skill);
+	sprintf(message, "You have %lu employees", employees->size());
+	this->_masterState->addMessage(message);
+
+	sprintf(message, "You have %lu projects", projects->size());
+	this->_masterState->addMessage(message);
+
+	this->_masterState->addMessage("Your skills in platforms are as follows:");
+	for (map<Platform *, int>::iterator it = platformSkills->begin(); it != platformSkills->end(); ++it) {
+		sprintf(message, "\t%s: %d", it->first->getName().c_str(), it->second);
+		this->_masterState->addMessage(message);
 	}
 }
 

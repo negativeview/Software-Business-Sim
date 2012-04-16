@@ -25,16 +25,38 @@ MasterState::MasterState() {
 	this->_allCompanies = new list<Company *>();
 	this->_allCompanies->push_back(this->_playerCompany);
 	this->_allWorkers = new list<Person *>();
+	this->_allConsumers = new list<Person *>();
 	this->_time = 0;
+
+	this->_messages = new vector<char *>();
 
 	this->_setupFirstNames();
 	this->_setupLastNames();
 	this->_setupPlatforms();
 	this->_setupLanguages();
 	this->_setupCommands();
-
-	this->_createWorkers(5);
+	this->_setupConsumers();
 }
+
+vector <char *> *MasterState::getMessages() {
+	return this->_messages;
+}
+
+void MasterState::clearMessages() {
+	for (vector<char *>::iterator it = this->_messages->begin(); it != this->_messages->end(); ++it) {
+		char *tmp = *it;
+		free(tmp);
+	}
+
+	this->_messages->clear();
+}
+
+void MasterState::addMessage(const char *message) {
+	char *tmp = (char *)malloc(strlen(message) + 1);
+	strcpy(tmp, message);
+	this->_messages->push_back(tmp);
+}
+
 
 int MasterState::getTime() {
 	return this->_time;
@@ -57,7 +79,7 @@ list <string> *MasterState::advanceTime(int amount) {
 		this->_time++;
 
 		// One in ten chance of creating a new person.
-		if (rand() % 10 == 0) {
+		if (rand() % (this->_allWorkers->size() + 1) == 0) {
 			this->_createWorkers(1);
 		}
 
@@ -211,12 +233,36 @@ void MasterState::_setupFirstNames() {
 	this->_firstNames->push_back("William");
 }
 
+void MasterState::_setupConsumers() {
+	for (int i = 0; i < 500; i++) {
+		string firstName = this->_getRandomName(this->_firstNames);
+		string lastName = this->_getRandomName(this->_lastNames);
+		int money = rand() % 100000;
+
+		Person *p = new Person(firstName, lastName, money);
+
+		for (vector<Platform *>::iterator it = this->_allPlatforms->begin(); it != this->_allPlatforms->end(); ++it) {
+			p->setPlatformSkill(*it, rand() % 100);
+		}
+
+		for (vector<Language *>::iterator it2 = this->_allLanguages->begin(); it2 != this->_allLanguages->end(); ++it2) {
+			p->setLanguageSkill(*it2, rand() % 100);
+		}
+
+		this->_allConsumers->push_back(p);
+	}
+}
+
 void MasterState::_createWorkers(int count) {
 	for (int i = 0; i < count; i++) {
 		string firstName = this->_getRandomName(this->_firstNames);
 		string lastName = this->_getRandomName(this->_lastNames);
 		int money = rand() % 100000;
 
+		char message[100];
+		sprintf(message, "%s %s applied for a job.", firstName.c_str(), lastName.c_str());
+
+		this->addMessage(message);
 		Person *p = new Person(firstName, lastName, money);
 
 		for (vector<Platform *>::iterator it = this->_allPlatforms->begin(); it != this->_allPlatforms->end(); ++it) {
@@ -293,6 +339,13 @@ MasterState::~MasterState() {
 	}
 	delete this->_allWorkers;
 	this->_allWorkers = NULL;
+
+	for (list<Person *>::iterator allConsumersIterator = this->_allConsumers->begin(); allConsumersIterator != this->_allConsumers->end(); ++allConsumersIterator) {
+		Person *p = *allConsumersIterator;
+		delete p;
+	}
+	delete this->_allConsumers;
+	this->_allConsumers = NULL;
 
 	for (vector<Platform *>::iterator platformIterator = this->_allPlatforms->begin(); platformIterator != this->_allPlatforms->end(); ++platformIterator) {
 		Platform *platform = *platformIterator;

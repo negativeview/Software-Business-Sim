@@ -193,3 +193,30 @@ TODO
   company discovers applicants.
 * Make opponent AI that can also hire people, etc.
 * Come up with a handful of really really stupid AIs.
+
+Core Features
+=============
+These are the features required to make it a proper game.
+
+* Difference between actual and perceived values of attributes.
+* Interview in order to figure them out somewhat.
+* Hire.
+* Create project teams.
+* Assign projects to teams.
+* Projects have certain attributes, including quality.
+* Market reacts to those qualities.
+* Company reputation, easier to create sequels, etc.
+
+Commands
+========
+
+* people
+  Show people that are known
+* status
+  Show a summary of status
+* team
+  Create/show teams
+* project
+  Create/assign project
+* interview
+  Conduct an interview
