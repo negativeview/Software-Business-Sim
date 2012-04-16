@@ -20,21 +20,20 @@ void StatusCommand::executeCommand(const char *line) {
 	vector<Project *> *projects = playerCompany->getProjects();
 	map<Platform *, int> *platformSkills = playerCompany->getPlatformSkills();
 
-	this->_masterState->addMessage(
-		"You currently have %d money"
-	);
-	this->_masterState->addMessage(
-		"You have %lu employees"
-	);
-	this->_masterState->addMessage(
-		"You have %lu projects"
-	);
+	char message[100];
+	sprintf(message, "You currently have %d money", money);
+	this->_masterState->addMessage(message);
+
+	sprintf(message, "You have %lu employees", employees->size());
+	this->_masterState->addMessage(message);
+
+	sprintf(message, "You have %lu projects", projects->size());
+	this->_masterState->addMessage(message);
+
 	this->_masterState->addMessage("Your skills in platforms are as follows:");
 	for (map<Platform *, int>::iterator it = platformSkills->begin(); it != platformSkills->end(); ++it) {
-		this->_masterState->addMessage(
-			"\t%s: %d"
-		);
-		//printf("\t%s: %d\n", it->first->getName().c_str(), it->second);
+		sprintf(message, "\t%s: %d", it->first->getName().c_str(), it->second);
+		this->_masterState->addMessage(message);
 	}
 }
 

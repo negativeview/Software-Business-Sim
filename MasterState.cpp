@@ -54,7 +54,7 @@ void MasterState::clearMessages() {
 }
 
 void MasterState::addMessage(const char *message) {
-	char *tmp = (char *)malloc(strlen(message));
+	char *tmp = (char *)malloc(strlen(message) + 1);
 	strcpy(tmp, message);
 	this->_messages->push_back(tmp);
 }

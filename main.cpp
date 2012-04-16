@@ -31,6 +31,7 @@ int main(int argc, char *argv[]) {
 	initscr();
 
 	while(true) {
+		erase();
 		getmaxyx(stdscr, row, col);
 		attron(A_STANDOUT);
 		mvprintw(0, 0, " Money: %10d", moneyLeft);
