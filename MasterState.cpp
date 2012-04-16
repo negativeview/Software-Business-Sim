@@ -36,8 +36,6 @@ MasterState::MasterState() {
 	this->_setupLanguages();
 	this->_setupCommands();
 	this->_setupConsumers();
-
-	this->_createWorkers(5);
 }
 
 vector <char *> *MasterState::getMessages() {
@@ -81,7 +79,7 @@ list <string> *MasterState::advanceTime(int amount) {
 		this->_time++;
 
 		// One in ten chance of creating a new person.
-		if (rand() % 10 == 0) {
+		if (rand() % (this->_allWorkers->size() + 1) == 0) {
 			this->_createWorkers(1);
 		}
 
@@ -260,6 +258,10 @@ void MasterState::_createWorkers(int count) {
 		string lastName = this->_getRandomName(this->_lastNames);
 		int money = rand() % 100000;
 
+		char message[100];
+		sprintf(message, "%s %s applied for a job.", firstName.c_str(), lastName.c_str());
+
+		this->addMessage(message);
 		Person *p = new Person(firstName, lastName, money);
 
 		for (vector<Platform *>::iterator it = this->_allPlatforms->begin(); it != this->_allPlatforms->end(); ++it) {

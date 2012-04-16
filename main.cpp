@@ -78,6 +78,12 @@ int main(int argc, char *argv[]) {
 
 		move(row - 1, 101);
 		attron(A_STANDOUT);
+		printw("H");
+		attroff(A_STANDOUT);
+		printw(" Hire");
+
+		move(row - 1, 121);
+		attron(A_STANDOUT);
 		printw("Q");
 		attroff(A_STANDOUT);
 		printw(" Quit");
@@ -89,6 +95,12 @@ int main(int argc, char *argv[]) {
 
 		masterState->clearMessages();
 		switch(input) {
+			case 'a':
+				masterState->executeCommand("applicants");
+				break;
+			case 'h':
+				masterState->executeCommand("hire");
+				break;
 			case 's':
 				masterState->executeCommand("status");
 				break;

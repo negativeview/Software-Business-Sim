@@ -12,7 +12,7 @@ using std::vector;
 #include <iostream>
 using std::cout;
 
-PeopleCommand::PeopleCommand(MasterState *masterState) : CommandFunctor(masterState, "people", "Tells you information about known people.") {
+PeopleCommand::PeopleCommand(MasterState *masterState) : CommandFunctor(masterState, "applicants", "Tells you information about known people.") {
 	
 }
 
@@ -24,13 +24,14 @@ void PeopleCommand::executeCommand(const char *line) {
 	for (vector<Person *>::iterator it = allPeople->begin(); it != allPeople->end(); ++it) {
 		++index;
 		Person *currentPerson = *it;
-		cout << index << ": " << currentPerson->getFirstName() << " " << currentPerson->getLastName();
+
+		char message[100];
+
+		sprintf(message, "%03d: %s %s", index, currentPerson->getFirstName().c_str(), currentPerson->getLastName().c_str());
+		this->_masterState->addMessage(message);
 		
 		Company *company = currentPerson->getCompany();
 		
-		if (company)
-			printf(" (%s)", currentPerson->getCompany()->getName());
-
 		list<Trait *> *personTraits;
 		if (company && company == this->_masterState->getPlayerCompany())
 			personTraits = currentPerson->getRealTraits();
@@ -39,9 +40,9 @@ void PeopleCommand::executeCommand(const char *line) {
 
 		for (list<Trait *>::iterator it2 = personTraits->begin(); it2 != personTraits->end(); ++it2) {
 			Trait *t = *it2;
-			printf("\n   %10s: %s", t->getName().c_str(), t->getDiscoveryModifiedText().c_str());
+			sprintf(message, "    %10s: %s", t->getName().c_str(), t->getDiscoveryModifiedText().c_str());
+			this->_masterState->addMessage(message);
 		}
-		printf("\n");
 	}
 }
 
