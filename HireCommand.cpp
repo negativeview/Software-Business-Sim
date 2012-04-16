@@ -166,6 +166,7 @@ void HireCommand::executeCommand(const char *line) {
 		if (toHire->acceptWages(hireAmount)) {
 			toHire->hire(this->_masterState->getPlayerCompany());
 			toHire->setSalary(hireAmount);
+			this->_masterState->getPlayerCompany()->addEmployee(toHire);
 			sprintf(message, "%s %s joined your company for %d/year", toHire->getFirstName().c_str(), toHire->getLastName().c_str(), hireAmount);
 		} else {
 			sprintf(message, "%s %s rejected your offer of %d/year", toHire->getFirstName().c_str(), toHire->getLastName().c_str(), hireAmount);

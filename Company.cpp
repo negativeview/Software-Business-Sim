@@ -29,6 +29,14 @@ void Company::addProject(Project *p) {
 void Company::addEmployee(Person *person) {
 	this->_employees->push_back(person);
 	this->recomputeCompanySkills();
+
+	for (vector<Person *>::iterator it = this->_knownPeople->begin(); it != this->_knownPeople->end(); ++it) {
+		Person *p = *it;
+		if (p == person) {
+			this->_knownPeople->erase(it);
+			return;
+		}
+	}
 }
 
 /**
@@ -120,6 +128,11 @@ vector<Person *> *Company::getKnownPeople() {
 }
 
 void Company::addKnownPerson(Person *person) {
+	for (list<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
+		Person *p = *it;
+		if (p == person)
+			return;
+	}
 	this->_knownPeople->push_back(person);
 }
 
