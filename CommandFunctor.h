@@ -4,7 +4,10 @@
 #include <string>
 using std::string;
 
+#include <menu.h>
+
 class MasterState;
+class Person;
 
 class CommandFunctor {
 	public:
@@ -16,6 +19,9 @@ class CommandFunctor {
 		virtual void executeCommand(const char *command);
 	protected:
 		MasterState *_masterState;
+		Person *personChoiceMenu();
+		MENU *setupMenu();
+		WINDOW *setupWindow(MENU *my_menu);
 	private:
 		string _prefix;
 		string _fullDesc;

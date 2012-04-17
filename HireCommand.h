@@ -17,8 +17,6 @@ class HireCommand: public CommandFunctor {
 	private:
 		int doGetWage(Person *p);
 		Person *doHireMenu();
-		MENU *setupMenu();
-		WINDOW *setupWindow(MENU *my_menu);
 };
 
 #endif

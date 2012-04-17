@@ -11,7 +11,7 @@ class Trait {
 
 		virtual int influenceOnSalaryRequirements();
 		string getDiscoveryModifiedText();
-		void discoverMore();
+		bool discoverMore();
 		string getName();
 	protected:
 		int _amount;

@@ -13,10 +13,16 @@ int Trait::influenceOnSalaryRequirements() {
 	return 0;
 }
 
-void Trait::discoverMore() {
+bool Trait::discoverMore() {
+	bool ret = false;
+
 	this->_discoveryLevel++;
 	if (this->_discoveryLevel > 3)
 		this->_discoveryLevel = 3;
+	else
+		ret = true;
+
+	return ret;
 }
 
 string Trait::getName() {

@@ -16,45 +16,6 @@ HireCommand::HireCommand(MasterState *masterState) : CommandFunctor(masterState,
 	
 }
 
-MENU *HireCommand::setupMenu() {
-	vector<Person *> *allPeople = this->_masterState->getPlayerCompany()->getKnownPeople();
-    int n_choices = allPeople->size();
-    ITEM **my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
-
-    int i = 0;
-    for (vector<Person *>::iterator it = allPeople->begin(); it != allPeople->end(); ++it) {
-    	Person *p = *it;
-    	my_items[i] = new_item(p->getFirstName().c_str(), p->getLastName().c_str());
-    	set_item_userptr(my_items[i], p);
-    	i++;
-    }
-    // Add the sigil.
-    my_items[i] = new_item(NULL, NULL);
-
-	MENU *my_menu = new_menu((ITEM **)my_items);
-
-	return my_menu;
-}
-
-WINDOW *HireCommand::setupWindow(MENU *my_menu) {
-	WINDOW *my_menu_win = newwin(10, 40, 4, 4);
-	keypad(my_menu_win, TRUE);
-
-    set_menu_win(my_menu, my_menu_win);
-    set_menu_sub(my_menu, derwin(my_menu_win, 6, 38, 3, 1));
-
-    box(my_menu_win, 0, 0);
-    mvwprintw(my_menu_win, 1, 2, "Applicants");
-	mvwaddch(my_menu_win, 2, 0, ACS_LTEE);
-	mvwhline(my_menu_win, 2, 1, ACS_HLINE, 38);
-	mvwaddch(my_menu_win, 2, 39, ACS_RTEE);
-
-	post_menu(my_menu);
-	wrefresh(my_menu_win);
-
-	return my_menu_win;
-}
-
 Person *HireCommand::doHireMenu() {
 	Person *ret = NULL;
 
