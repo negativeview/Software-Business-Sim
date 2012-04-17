@@ -15,8 +15,8 @@ int Trait::influenceOnSalaryRequirements() {
 
 void Trait::discoverMore() {
 	this->_discoveryLevel++;
-	if (this->_discoveryLevel > 2)
-		this->_discoveryLevel = 2;
+	if (this->_discoveryLevel > 3)
+		this->_discoveryLevel = 3;
 }
 
 string Trait::getName() {
@@ -43,12 +43,12 @@ string Trait::getDiscoveryModifiedText() {
 	string ret;
 
 	switch (this->_discoveryLevel) {
-		case 2:
+		case 3:
 			tmp << this->_amount;
 			tmp >> ret;
 			return ret;
 			break;
-		case 1:
+		case 2:
 			if (this->_amount < 10)
 				return "< 10";
 			if (this->_amount < 20)
@@ -69,13 +69,16 @@ string Trait::getDiscoveryModifiedText() {
 				return "80s";
 			return "90s";
 			break;
-		case 0:
-		default:
+		case 1:
 			if (this->_amount < 33)
 				return "low";
 			if (this->_amount < 66)
 				return "medium";
 			return "high";
+			break;
+		case 0:
+		default:
+			return "Unknown";
 	}
 }
 
