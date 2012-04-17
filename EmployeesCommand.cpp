@@ -25,6 +25,23 @@ void EmployeesCommand::executeCommand(const char *line) {
     int c;
     int done = 0;
 	while(!done) {
+		ITEM *currentItem = current_item(my_menu);
+		if (currentItem) {
+			Person *p = (Person *)item_userptr(currentItem);
+
+			list<Trait *> *realTraits = p->getRealTraits();
+			int down = 3;
+			for(list<Trait *>::iterator it = realTraits->begin(); it != realTraits->end(); ++it) {
+				Trait *t = *it;
+				char message[30];
+				sprintf(message, "%10s: %s", t->getName().c_str(), t->getDiscoveryModifiedText().c_str());
+				wmove(my_details_win, down, 2);
+				down++;
+				wprintw(my_details_win, message);
+			}
+		}
+		wrefresh(my_details_win);
+
 		c = wgetch(my_menu_win);
 		switch(c) {
 			case KEY_DOWN:
@@ -46,23 +63,6 @@ void EmployeesCommand::executeCommand(const char *line) {
 		}
 
 		wrefresh(my_menu_win);
-
-		ITEM *currentItem = current_item(my_menu);
-		if (currentItem) {
-			Person *p = (Person *)item_userptr(currentItem);
-
-			list<Trait *> *realTraits = p->getRealTraits();
-			int down = 3;
-			for(list<Trait *>::iterator it = realTraits->begin(); it != realTraits->end(); ++it) {
-				Trait *t = *it;
-				char message[30];
-				sprintf(message, "%10s: %s", t->getName().c_str(), t->getDiscoveryModifiedText().c_str());
-				wmove(my_details_win, down, 2);
-				down++;
-				wprintw(my_details_win, message);
-			}
-		}
-		wrefresh(my_details_win);
 	}
 
 	/* Unpost and free all the memory taken up */
