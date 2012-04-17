@@ -19,13 +19,12 @@ string CommandFunctor::getFullDesc() {
 	return this->_fullDesc;
 }
 
-MENU *CommandFunctor::setupMenu() {
-	vector<Person *> *allPeople = this->_masterState->getPlayerCompany()->getKnownPeople();
-    int n_choices = allPeople->size();
+MENU *CommandFunctor::setupMenu(vector<Person *> *people) {
+    int n_choices = people->size();
     ITEM **my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 
     int i = 0;
-    for (vector<Person *>::iterator it = allPeople->begin(); it != allPeople->end(); ++it) {
+    for (vector<Person *>::iterator it = people->begin(); it != people->end(); ++it) {
     	Person *p = *it;
     	my_items[i] = new_item(p->getFirstName().c_str(), p->getLastName().c_str());
     	set_item_userptr(my_items[i], p);
@@ -39,7 +38,7 @@ MENU *CommandFunctor::setupMenu() {
 	return my_menu;
 }
 
-WINDOW *CommandFunctor::setupWindow(MENU *my_menu) {
+WINDOW *CommandFunctor::setupWindow(MENU *my_menu, const char *title) {
 	WINDOW *my_menu_win = newwin(10, 40, 4, 4);
 	keypad(my_menu_win, TRUE);
 
@@ -47,7 +46,7 @@ WINDOW *CommandFunctor::setupWindow(MENU *my_menu) {
     set_menu_sub(my_menu, derwin(my_menu_win, 6, 38, 3, 1));
 
     box(my_menu_win, 0, 0);
-    mvwprintw(my_menu_win, 1, 2, "Applicants");
+    mvwprintw(my_menu_win, 1, 2, title);
 	mvwaddch(my_menu_win, 2, 0, ACS_LTEE);
 	mvwhline(my_menu_win, 2, 1, ACS_HLINE, 38);
 	mvwaddch(my_menu_win, 2, 39, ACS_RTEE);
@@ -58,13 +57,13 @@ WINDOW *CommandFunctor::setupWindow(MENU *my_menu) {
 	return my_menu_win;
 }
 
-Person *CommandFunctor::personChoiceMenu() {
+Person *CommandFunctor::personChoiceMenu(const char *title) {
 	Person *ret = NULL;
 
 	int n_choices = this->_masterState->getPlayerCompany()->getKnownPeople()->size();
     keypad(stdscr, TRUE);
-	MENU *my_menu = this->setupMenu();
-	WINDOW *my_menu_win = this->setupWindow(my_menu);
+	MENU *my_menu = this->setupMenu(this->_masterState->getPlayerCompany()->getKnownPeople());
+	WINDOW *my_menu_win = this->setupWindow(my_menu, title);
 	refresh();
 
     int c;

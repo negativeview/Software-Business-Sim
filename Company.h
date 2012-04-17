@@ -22,7 +22,7 @@ class Company {
 
 		const char *getName();
 		void addEmployee(Person *person);
-		list<Person *> *getEmployees();
+		vector<Person *> *getEmployees();
 		void payWages(int wages);
 		void payOverhead(int overhead);
 		int getOverheadCost();
@@ -41,7 +41,7 @@ class Company {
 	private:
 		char *_name;
 		int _money;
-		list<Person *> *_employees;
+		vector<Person *> *_employees;
 		vector<Person *> *_knownPeople;
 		vector<Project *> *_allProjects;
 		map<Platform *, int> *_platformSkills;

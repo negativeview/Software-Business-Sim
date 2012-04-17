@@ -1,5 +1,6 @@
 #include "MasterState.h"
 #include "Company.h"
+#include "EmployeesCommand.h"
 #include "HelpCommand.h"
 #include "HireCommand.h"
 #include "InterviewCommand.h"
@@ -298,6 +299,7 @@ void MasterState::executeCommand(const char *command) {
 void MasterState::_setupCommands() {
 	this->_allCommands = new vector<CommandFunctor *>();
 
+	this->_allCommands->push_back(new EmployeesCommand(this));
 	this->_allCommands->push_back(new HelpCommand(this));
 	this->_allCommands->push_back(new HireCommand(this));
 	this->_allCommands->push_back(new InterviewCommand(this));

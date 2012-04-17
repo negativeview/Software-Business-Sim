@@ -16,7 +16,7 @@ StatusCommand::StatusCommand(MasterState *masterState) : CommandFunctor(masterSt
 void StatusCommand::executeCommand(const char *line) {
 	Company *playerCompany = this->_masterState->getPlayerCompany();
 	int money = playerCompany->getMoney();
-	list<Person *> *employees = playerCompany->getEmployees();
+	vector<Person *> *employees = playerCompany->getEmployees();
 	vector<Project *> *projects = playerCompany->getProjects();
 	map<Platform *, int> *platformSkills = playerCompany->getPlatformSkills();
 

@@ -11,7 +11,7 @@ Company::Company(const char *name, int money) {
 	this->_name = (char *)malloc(strlen(name) + 1);
 	strcpy(this->_name, name);
 	this->_money = money;
-	this->_employees = new list<Person *>();
+	this->_employees = new vector<Person *>();
 	this->_knownPeople = new vector<Person *>();
 	this->_platformSkills = new map<Platform *, int>();
 	this->_languageSkills = new map<Language *, int>();
@@ -58,7 +58,7 @@ void Company::recomputeCompanySkills() {
 	map<Platform *, int> tmpSkillListTotals;
 	map<Platform *, int> highestSkill;
 
-	for (list<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
+	for (vector<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
 		Person *employee = *it;
 		map<Platform *, int> *employeePlatformSkills = employee->getPlatformSkills();
 		for (map<Platform *, int>::iterator it2 = employeePlatformSkills->begin(); it2 != employeePlatformSkills->end(); ++it2) {
@@ -78,7 +78,7 @@ void Company::recomputeCompanySkills() {
 	map<Language *, int> tmpLanguageListTotals;
 	map<Language *, int> highestLanguage;
 
-	for (list<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
+	for (vector<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
 		Person *employee = *it;
 		map<Language *, int> *employeeLanguageSkills = employee->getLanguageSkills();
 		for (map<Language *, int>::iterator it2 = employeeLanguageSkills->begin(); it2 != employeeLanguageSkills->end(); ++it2) {
@@ -128,7 +128,7 @@ vector<Person *> *Company::getKnownPeople() {
 }
 
 void Company::addKnownPerson(Person *person) {
-	for (list<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
+	for (vector<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
 		Person *p = *it;
 		if (p == person)
 			return;
@@ -140,7 +140,7 @@ void Company::doPayments(int time) {
 	// Every two weeks, pay your people.
 	int totalPayout = 0;
 	if (time % 14 == 0) {
-		for (list<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
+		for (vector<Person *>::iterator it = this->_employees->begin(); it != this->_employees->end(); ++it) {
 			int salary = (int)((*it)->getCurrentSalary() / 26.0);
 			this->payWages(salary);
 			(*it)->addMoney(salary);
@@ -156,7 +156,7 @@ const char *Company::getName() {
 	return this->_name;
 }
 
-list <Person *> *Company::getEmployees() {
+vector<Person *> *Company::getEmployees() {
 	return this->_employees;
 }
 

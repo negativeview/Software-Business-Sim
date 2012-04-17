@@ -11,7 +11,7 @@ InterviewCommand::InterviewCommand(MasterState *masterState) : CommandFunctor(ma
 
 void InterviewCommand::executeCommand(const char *line) {
 	while (true) {
-		Person *toInterview = this->personChoiceMenu();
+		Person *toInterview = this->personChoiceMenu("Applicants");
 		if (toInterview == NULL)
 			return;
 
@@ -32,6 +32,7 @@ void InterviewCommand::executeCommand(const char *line) {
 		if (!learnedAnything) {
 			this->_masterState->addMessage("That was a thoroughly disappointing interview, in which you learned nothing.");
 		}
+		this->_masterState->advanceTime(1);
 
 		return;
 	}

@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <vector>
 using std::vector;
@@ -34,8 +35,10 @@ int main(int argc, char *argv[]) {
 	while(true) {
 		erase();
 		getmaxyx(stdscr, row, col);
+
+		// TODO: Fix this so that it goes to the far right.
 		attron(A_STANDOUT);
-		mvprintw(0, 0, " Day: %03d Money: %10d", masterState->getTime(), moneyLeft);
+		mvprintw(0, 0, " Day: %d Money: %d", masterState->getTime(), moneyLeft);
 		for (int i = 27; i < col; ++i) {
 			printw(" ");
 		}
@@ -47,45 +50,77 @@ int main(int argc, char *argv[]) {
 			mvprintw(thisRow, 1, (*messages)[i]);
 		}
 
-		move(row - 1, 1);
-		attron(A_STANDOUT);
-		printw("A");
-		attroff(A_STANDOUT);
-		printw(" Applicants");
+		// Three blank spaces between options.
 
-		move(row - 1, 21);
+		move(2, col - 20);
 		attron(A_STANDOUT);
-		printw("I");
+		printw("      COMMANDS      ");
+		attroff(A_STANDOUT);
+
+		move(3, col - 20);
+		attron(A_STANDOUT);
+		printw(" A ");
+		attroff(A_STANDOUT);
+
+		char message[20];
+
+		printw(" Applicants");
+		sprintf(message, "[%d]", masterState->getPlayerCompany()->getKnownPeople()->size());
+		move(3, col - strlen(message));
+		printw(message);
+
+		move(4, col - 20);
+		attron(A_STANDOUT);
+		printw(" I ");
 		attroff(A_STANDOUT);
 		printw(" Interview");
 
-		move(row - 1, 41);
+		move(5, col - 20);
 		attron(A_STANDOUT);
-		printw("S");
-		attroff(A_STANDOUT);
-		printw(" Status");
-
-		move(row - 1, 61);
-		attron(A_STANDOUT);
-		printw("T");
-		attroff(A_STANDOUT);
-		printw(" Teams");
-
-		move(row - 1, 81);
-		attron(A_STANDOUT);
-		printw("P");
-		attroff(A_STANDOUT);
-		printw(" Projects");
-
-		move(row - 1, 101);
-		attron(A_STANDOUT);
-		printw("H");
+		printw(" H ");
 		attroff(A_STANDOUT);
 		printw(" Hire");
 
-		move(row - 1, 121);
+		move(6, col - 20);
 		attron(A_STANDOUT);
-		printw("Q");
+		printw(" E ");
+		attroff(A_STANDOUT);
+		printw(" *Employees");
+
+		sprintf(message, "[%d]", masterState->getPlayerCompany()->getEmployees()->size());
+		move(6, col - strlen(message));
+		printw(message);
+
+		move(7, col - 20);
+		attron(A_STANDOUT);
+		printw(" S ");
+		attroff(A_STANDOUT);
+		printw(" Status");
+
+		move(8, col - 20);
+		attron(A_STANDOUT);
+		printw(" T ");
+		attroff(A_STANDOUT);
+		printw(" *Teams");
+
+		move(9, col - 20);
+		attron(A_STANDOUT);
+		printw(" P ");
+		attroff(A_STANDOUT);
+		printw(" *Projects");
+		sprintf(message, "[%d]", masterState->getPlayerCompany()->getProjects()->size());
+		move(9, col - strlen(message));
+		printw(message);
+
+		move(10, col - 20);
+		attron(A_STANDOUT);
+		printw(" W ");
+		attroff(A_STANDOUT);
+		printw(" *Wait");
+
+		move(11, col - 20);
+		attron(A_STANDOUT);
+		printw(" Q ");
 		attroff(A_STANDOUT);
 		printw(" Quit");
 
@@ -102,6 +137,10 @@ int main(int argc, char *argv[]) {
 			case 'a':
 				masterState->clearMessages();
 				masterState->executeCommand("applicants");
+				break;
+			case 'e':
+				masterState->clearMessages();
+				masterState->executeCommand("employees");
 				break;
 			case 'h':
 				masterState->executeCommand("hire");
