@@ -2,6 +2,7 @@
 #include "Company.h"
 #include "HelpCommand.h"
 #include "HireCommand.h"
+#include "InterviewCommand.h"
 #include "Language.h"
 #include "linenoise.h"
 #include "QuitCommand.h"
@@ -296,11 +297,13 @@ void MasterState::executeCommand(const char *command) {
 
 void MasterState::_setupCommands() {
 	this->_allCommands = new vector<CommandFunctor *>();
+
 	this->_allCommands->push_back(new HelpCommand(this));
-	this->_allCommands->push_back(new StatusCommand(this));
+	this->_allCommands->push_back(new HireCommand(this));
+	this->_allCommands->push_back(new InterviewCommand(this));
 	this->_allCommands->push_back(new PeopleCommand(this));
 	this->_allCommands->push_back(new ProjectCommand(this));
-	this->_allCommands->push_back(new HireCommand(this));
+	this->_allCommands->push_back(new StatusCommand(this));
 	this->_allCommands->push_back(new WaitCommand(this));
 	this->_allCommands->push_back(new QuitCommand(this));
 }

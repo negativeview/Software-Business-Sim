@@ -100,12 +100,17 @@ int main(int argc, char *argv[]) {
 		}
 		switch(input) {
 			case 'a':
+				masterState->clearMessages();
 				masterState->executeCommand("applicants");
 				break;
 			case 'h':
 				masterState->executeCommand("hire");
 				break;
+			case 'i':
+				masterState->executeCommand("interview");
+				break;
 			case 's':
+				masterState->clearMessages();
 				masterState->executeCommand("status");
 				break;
 			case 'q':
