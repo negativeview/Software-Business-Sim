@@ -1,8 +1,6 @@
 #include "Company.h"
 #include "MasterState.h"
 
-#include "linenoise.h"
-
 #include <ncurses.h>
 
 #include <stdlib.h>

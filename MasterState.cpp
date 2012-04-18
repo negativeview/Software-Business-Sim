@@ -1,19 +1,10 @@
 #include "MasterState.h"
+#include "CommandList.h"
 #include "Company.h"
-#include "EmployeesCommand.h"
-#include "HelpCommand.h"
-#include "HireCommand.h"
-#include "InterviewCommand.h"
 #include "Language.h"
-#include "linenoise.h"
-#include "QuitCommand.h"
-#include "PeopleCommand.h"
 #include "Person.h"
 #include "Platform.h"
-#include "ProjectCommand.h"
-#include "StatusCommand.h"
 #include "Trait.h"
-#include "WaitCommand.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -30,13 +21,14 @@ MasterState::MasterState() {
 	this->_allConsumers = new list<Person *>();
 	this->_time = 0;
 
+	this->_commandList = new CommandList(this);
+
 	this->_messages = new vector<char *>();
 
 	this->_setupFirstNames();
 	this->_setupLastNames();
 	this->_setupPlatforms();
 	this->_setupLanguages();
-	this->_setupCommands();
 	this->_setupConsumers();
 }
 
@@ -280,49 +272,8 @@ void MasterState::_createWorkers(int count) {
 }
 
 void MasterState::executeCommand(const char *command) {
-	if (command[0] != '\0') {
-		int found = 0;
-		for (vector<CommandFunctor *>::iterator it = this->_allCommands->begin(); it != this->_allCommands->end(); ++it) {
-			CommandFunctor *commandFunctor = *it;
-			string prefix = commandFunctor->getPrefix();
-
-			if (strncmp(prefix.c_str(), command, strlen(prefix.c_str())) == 0) {
-				commandFunctor->executeCommand(command);
-				linenoiseHistoryAdd(command);
-				linenoiseHistorySave("history.txt");
-				return;
-			}
-		}
-	}
+	this->_commandList->executeCommand(command);
 }
-
-void MasterState::_setupCommands() {
-	this->_allCommands = new vector<CommandFunctor *>();
-
-	this->_allCommands->push_back(new EmployeesCommand(this));
-	this->_allCommands->push_back(new HelpCommand(this));
-	this->_allCommands->push_back(new HireCommand(this));
-	this->_allCommands->push_back(new InterviewCommand(this));
-	this->_allCommands->push_back(new PeopleCommand(this));
-	this->_allCommands->push_back(new ProjectCommand(this));
-	this->_allCommands->push_back(new StatusCommand(this));
-	this->_allCommands->push_back(new WaitCommand(this));
-	this->_allCommands->push_back(new QuitCommand(this));
-}
-
-vector<CommandFunctor *> *MasterState::getCommands() {
-	return this->_allCommands;
-}
-
-/*
-void MasterState::setNextHandler(void (*next_handler)(MasterState *masterState, const char *line)) {
-	this->_next_handler_pointer = next_handler;
-}
-
-void (*)(MasterState *masterState, const char *line) *MasterState::getNextHandler() {
-	return this->_next_handler_pointer;
-}
-*/
 
 string MasterState::_getRandomName(vector<string> *nameList) {
 	int length = nameList->size();

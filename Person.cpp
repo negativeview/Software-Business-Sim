@@ -1,11 +1,8 @@
-#include "AmbitionTrait.h"
 #include "Company.h"
-#include "CreativityTrait.h"
-#include "GreedTrait.h"
-#include "InitiativeTrait.h"
 #include "Language.h"
 #include "Person.h"
 #include "Platform.h"
+#include "Trait.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -45,32 +42,32 @@ Person::Person(string firstName, string lastName, int money) {
 	this->_believedTraits = new list<Trait *>();
 
 	int ambitionTrait = rand() % 100;
-	this->_actualTraits->push_back(new AmbitionTrait(ambitionTrait));
+	this->_actualTraits->push_back(new Trait("ambition", ambitionTrait));
 	ambitionTrait += ((rand() % 20) - 5);
 	if (ambitionTrait > 100)
 		ambitionTrait = 100;
-	this->_believedTraits->push_back(new AmbitionTrait(ambitionTrait));
+	this->_believedTraits->push_back(new Trait("ambition", ambitionTrait));
 
 	int greedTrait = rand() % 100;
-	this->_actualTraits->push_back(new GreedTrait(greedTrait));
+	this->_actualTraits->push_back(new Trait("greed", greedTrait));
 	greedTrait += ((rand() % 20) - 5);
 	if (greedTrait > 100)
 		greedTrait = 100;
-	this->_believedTraits->push_back(new GreedTrait(greedTrait));
+	this->_believedTraits->push_back(new Trait("greed", greedTrait));
 
 	int initiativeTrait = rand() % 100;
-	this->_actualTraits->push_back(new InitiativeTrait(initiativeTrait));
+	this->_actualTraits->push_back(new Trait("initiative", initiativeTrait));
 	initiativeTrait += ((rand() % 20) - 5);
 	if (initiativeTrait > 100)
 		initiativeTrait = 100;
-	this->_believedTraits->push_back(new InitiativeTrait(initiativeTrait));
+	this->_believedTraits->push_back(new Trait("initiative", initiativeTrait));
 
 	int creativityTrait = rand() % 100;
-	this->_actualTraits->push_back(new CreativityTrait(creativityTrait));
+	this->_actualTraits->push_back(new Trait("creativity", creativityTrait));
 	creativityTrait += ((rand() % 20) - 5);
 	if (creativityTrait > 100)
 		creativityTrait = 100;
-	this->_believedTraits->push_back(new CreativityTrait(creativityTrait));
+	this->_believedTraits->push_back(new Trait("creativity", creativityTrait));
 }
 
 Company *Person::getCompany() {

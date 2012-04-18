@@ -50,13 +50,6 @@ void EmployeesCommand::executeCommand(const char *line) {
 			case KEY_UP:
 				menu_driver(my_menu, REQ_UP_ITEM);
 				break;
-			case 10:	// Enter key, select the user.
-				{
-					ITEM *currentItem = current_item(my_menu);
-//					ret = (Person *)item_userptr(currentItem);
-					done = 1;
-				}
-				break;
 			case 27:
 				done = 1;
 				break;

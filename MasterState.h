@@ -11,6 +11,7 @@ using std::string;
 using std::vector;
 
 class CommandFunctor;
+class CommandList;
 class Company;
 class Language;
 class Person;
@@ -26,7 +27,6 @@ class MasterState {
 
 		vector<Platform *> *getPlatforms();
 		vector<Language *> *getLanguages();
-		vector<CommandFunctor *> *getCommands();
 		void executeCommand(const char *command);
 		int getTime();
 		vector <char *> *getMessages();
@@ -44,13 +44,13 @@ class MasterState {
 		vector<string> *_lastNames;
 		vector<Platform *> *_allPlatforms;
 		vector<Language *> *_allLanguages;
-		vector<CommandFunctor *> *_allCommands;
 
 		vector<char *> *_messages;
 
+		CommandList *_commandList;
+
 		void _setupFirstNames();
 		void _setupLastNames();
-		void _setupCommands();
 		void _setupPlatforms();
 		void _setupLanguages();
 		void _setupConsumers();
