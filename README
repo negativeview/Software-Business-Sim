@@ -220,3 +220,35 @@ Commands
   Create/assign project
 * interview
   Conduct an interview
+
+Platforms
+=========
+
+* CLI -- do this first to test things out
+* Web -- a direct translation from the turn-based CLI into turn based web
+  * Built around API hooks, entire interface is AJAX
+  * Build other turn-based things around this API
+* Web -- extend into real-time with a single large world, competitive
+  * Built around API hooks again, entire interface is AJAX
+  * Build other real-time versions off of these APIs
+* Mobile -- Built mostly off of web APIs. No ads, but $0.99
+* MineCraft -- the real odd choice. Translate to MC, make your dudes even build
+  their physical offices.
+  * Multiplayer compatibility is a MUST.
+
+
+Trait
+-----
+  name (internal)
+  visibleName
+
+TraitValue
+----------
+  Trait *
+  int
+
+TraitValueImpressions
+---------------------
+  TraitValue *
+  map<Person *, int> *impressions
+

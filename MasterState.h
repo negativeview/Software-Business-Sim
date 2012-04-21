@@ -14,6 +14,7 @@ class CommandFunctor;
 class CommandList;
 class Company;
 class Language;
+class NameContainer;
 class Person;
 class Platform;
 
@@ -40,8 +41,7 @@ class MasterState {
 		list<Person *> *_allConsumers;
 		int _time;
 
-		vector<string> *_firstNames;
-		vector<string> *_lastNames;
+		NameContainer *_names;
 		vector<Platform *> *_allPlatforms;
 		vector<Language *> *_allLanguages;
 
@@ -49,13 +49,10 @@ class MasterState {
 
 		CommandList *_commandList;
 
-		void _setupFirstNames();
-		void _setupLastNames();
 		void _setupPlatforms();
 		void _setupLanguages();
 		void _setupConsumers();
 		void _createWorkers(int count);
-		string _getRandomName(vector<string> *nameList);
 		void (*_next_handler_pointer)(MasterState *masterState, const char *line);
 };
 
