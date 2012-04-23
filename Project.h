@@ -3,11 +3,12 @@
 
 class Company;
 class Language;
+class Market;
 class Platform;
 
 class Project {
 	public:
-		Project(Company *company, Platform *platform, Language *language);
+		Project(Company *company, Language *language, Platform *platform, Market *market);
 		~Project();
 	protected:
 	private:

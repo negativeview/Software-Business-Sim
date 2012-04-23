@@ -11,7 +11,7 @@ EmployeesCommand::EmployeesCommand(MasterState *masterState) : CommandFunctor(ma
 void EmployeesCommand::executeCommand(const char *line) {
 	int n_choices = this->_masterState->getPlayerCompany()->getEmployees()->size();
     keypad(stdscr, TRUE);
-	MENU *my_menu = this->setupMenu(this->_masterState->getPlayerCompany()->getEmployees());
+	MENU *my_menu = this->setupMenu((vector<NamedObject *> *)(this->_masterState->getPlayerCompany()->getEmployees()));
 	WINDOW *my_menu_win = this->setupWindow(my_menu, "Employees");
 	refresh();
 

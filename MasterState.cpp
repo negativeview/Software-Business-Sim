@@ -2,6 +2,7 @@
 #include "CommandList.h"
 #include "Company.h"
 #include "Language.h"
+#include "Market.h"
 #include "NameContainer.h"
 #include "Person.h"
 #include "Platform.h"
@@ -27,9 +28,16 @@ MasterState::MasterState() {
 	this->_messages = new vector<char *>();
 	this->_names = new NameContainer();
 
+	this->_allMarkets = new vector<Market *>();
+	this->_allMarkets->push_back(new Market("Old People"));
+
 	this->_setupPlatforms();
 	this->_setupLanguages();
 	this->_setupConsumers();
+}
+
+vector<Market *> *MasterState::getMarkets() {
+	return this->_allMarkets;
 }
 
 vector <char *> *MasterState::getMessages() {

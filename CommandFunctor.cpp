@@ -1,5 +1,6 @@
 #include "CommandFunctor.h"
 #include "Company.h"
+#include "Language.h"
 #include "MasterState.h"
 #include "Person.h"
 
@@ -19,14 +20,14 @@ string CommandFunctor::getFullDesc() {
 	return this->_fullDesc;
 }
 
-MENU *CommandFunctor::setupMenu(vector<Person *> *people) {
+MENU *CommandFunctor::setupMenu(vector<NamedObject *> *people) {
     int n_choices = people->size();
     ITEM **my_items = (ITEM **)calloc(n_choices + 1, sizeof(ITEM *));
 
     int i = 0;
-    for (vector<Person *>::iterator it = people->begin(); it != people->end(); ++it) {
-    	Person *p = *it;
-    	my_items[i] = new_item(p->getFirstName().c_str(), p->getLastName().c_str());
+    for (vector<NamedObject *>::iterator it = people->begin(); it != people->end(); ++it) {
+    	NamedObject *p = *it;
+    	my_items[i] = new_item(p->getTag(), p->getFullName());
     	set_item_userptr(my_items[i], p);
     	i++;
     }
@@ -57,12 +58,147 @@ WINDOW *CommandFunctor::setupWindow(MENU *my_menu, const char *title) {
 	return my_menu_win;
 }
 
+Language *CommandFunctor::languageChoiceMenu() {
+	Language *ret = NULL;
+
+	int n_choices = this->_masterState->getLanguages()->size();
+    keypad(stdscr, TRUE);
+	MENU *my_menu = this->setupMenu((vector<NamedObject *> *)(this->_masterState->getLanguages()));
+	WINDOW *my_menu_win = this->setupWindow(my_menu, "Language");
+	refresh();
+
+    int c;
+    int done = 0;
+	while(!done) {
+		c = wgetch(my_menu_win);
+		switch(c) {
+			case KEY_DOWN:
+				menu_driver(my_menu, REQ_DOWN_ITEM);
+				break;
+			case KEY_UP:
+				menu_driver(my_menu, REQ_UP_ITEM);
+				break;
+			case 10:	// Enter key, select the user.
+				{
+					ITEM *currentItem = current_item(my_menu);
+					ret = (Language *)item_userptr(currentItem);
+					done = 1;
+				}
+				break;
+			case 27:
+				done = 1;
+				break;
+		}
+		wrefresh(my_menu_win);
+	}
+
+	/* Unpost and free all the memory taken up */
+	unpost_menu(my_menu);
+
+	ITEM **my_items = menu_items(my_menu);
+	for(int i = 0; i < n_choices; ++i)
+		free_item(my_items[i]);
+	endwin();
+	free_menu(my_menu);
+	return ret;
+}
+
+Platform *CommandFunctor::platformChoiceMenu() {
+	Platform *ret = NULL;
+
+	int n_choices = this->_masterState->getPlatforms()->size();
+    keypad(stdscr, TRUE);
+	MENU *my_menu = this->setupMenu((vector<NamedObject *> *)(this->_masterState->getPlatforms()));
+	WINDOW *my_menu_win = this->setupWindow(my_menu, "Platform");
+	refresh();
+
+    int c;
+    int done = 0;
+	while(!done) {
+		c = wgetch(my_menu_win);
+		switch(c) {
+			case KEY_DOWN:
+				menu_driver(my_menu, REQ_DOWN_ITEM);
+				break;
+			case KEY_UP:
+				menu_driver(my_menu, REQ_UP_ITEM);
+				break;
+			case 10:	// Enter key, select the user.
+				{
+					ITEM *currentItem = current_item(my_menu);
+					ret = (Platform *)item_userptr(currentItem);
+					done = 1;
+				}
+				break;
+			case 27:
+				done = 1;
+				break;
+		}
+		wrefresh(my_menu_win);
+	}
+
+	/* Unpost and free all the memory taken up */
+	unpost_menu(my_menu);
+
+	ITEM **my_items = menu_items(my_menu);
+	for(int i = 0; i < n_choices; ++i)
+		free_item(my_items[i]);
+	endwin();
+	free_menu(my_menu);
+	return ret;
+}
+
+Market *CommandFunctor::marketChoiceMenu() {
+	Market *ret = NULL;
+
+	int n_choices = this->_masterState->getMarkets()->size();
+    keypad(stdscr, TRUE);
+	MENU *my_menu = this->setupMenu((vector<NamedObject *> *)(this->_masterState->getMarkets()));
+	WINDOW *my_menu_win = this->setupWindow(my_menu, "Market");
+	refresh();
+
+    int c;
+    int done = 0;
+	while(!done) {
+		c = wgetch(my_menu_win);
+		switch(c) {
+			case KEY_DOWN:
+				menu_driver(my_menu, REQ_DOWN_ITEM);
+				break;
+			case KEY_UP:
+				menu_driver(my_menu, REQ_UP_ITEM);
+				break;
+			case 10:	// Enter key, select the user.
+				{
+					ITEM *currentItem = current_item(my_menu);
+					ret = (Market *)item_userptr(currentItem);
+					done = 1;
+				}
+				break;
+			case 27:
+				done = 1;
+				break;
+		}
+		wrefresh(my_menu_win);
+	}
+
+	/* Unpost and free all the memory taken up */
+	unpost_menu(my_menu);
+
+	ITEM **my_items = menu_items(my_menu);
+	for(int i = 0; i < n_choices; ++i)
+		free_item(my_items[i]);
+	endwin();
+	free_menu(my_menu);
+	return ret;
+}
+
 Person *CommandFunctor::personChoiceMenu(const char *title) {
 	Person *ret = NULL;
 
 	int n_choices = this->_masterState->getPlayerCompany()->getKnownPeople()->size();
     keypad(stdscr, TRUE);
-	MENU *my_menu = this->setupMenu(this->_masterState->getPlayerCompany()->getKnownPeople());
+	MENU *my_menu = this->setupMenu((vector<NamedObject *> *)(this->_masterState->getPlayerCompany()->getKnownPeople()));
 	WINDOW *my_menu_win = this->setupWindow(my_menu, title);
 	refresh();
 

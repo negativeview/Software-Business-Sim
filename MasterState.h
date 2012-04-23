@@ -14,6 +14,7 @@ class CommandFunctor;
 class CommandList;
 class Company;
 class Language;
+class Market;
 class NameContainer;
 class Person;
 class Platform;
@@ -28,6 +29,7 @@ class MasterState {
 
 		vector<Platform *> *getPlatforms();
 		vector<Language *> *getLanguages();
+		vector<Market *> *getMarkets();
 		void executeCommand(const char *command);
 		int getTime();
 		vector <char *> *getMessages();
@@ -44,6 +46,7 @@ class MasterState {
 		NameContainer *_names;
 		vector<Platform *> *_allPlatforms;
 		vector<Language *> *_allLanguages;
+		vector<Market *> *_allMarkets;
 
 		vector<char *> *_messages;
 

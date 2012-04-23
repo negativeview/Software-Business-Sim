@@ -9,8 +9,12 @@ using std::vector;
 
 #include <menu.h>
 
+class Language;
+class Market;
 class MasterState;
+class NamedObject;
 class Person;
+class Platform;
 
 class CommandFunctor {
 	public:
@@ -23,7 +27,10 @@ class CommandFunctor {
 	protected:
 		MasterState *_masterState;
 		Person *personChoiceMenu(const char *title);
-		MENU *setupMenu(vector<Person *> *people);
+		Language *languageChoiceMenu();
+		Platform *platformChoiceMenu();
+		Market *marketChoiceMenu();
+		MENU *setupMenu(vector<NamedObject *> *namedObjects);
 		WINDOW *setupWindow(MENU *my_menu, const char *title);
 	private:
 		string _prefix;

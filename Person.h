@@ -15,7 +15,9 @@ class Language;
 class Platform;
 class Trait;
 
-class Person {
+#include "NamedObject.h"
+
+class Person : public NamedObject {
 	public:
 		Person(string firstName, string lastName, int money);
 		~Person();

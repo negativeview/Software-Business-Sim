@@ -21,7 +21,7 @@ Person *HireCommand::doHireMenu() {
 
 	int n_choices = this->_masterState->getPlayerCompany()->getKnownPeople()->size();
     keypad(stdscr, TRUE);
-	MENU *my_menu = this->setupMenu(this->_masterState->getPlayerCompany()->getKnownPeople());
+	MENU *my_menu = this->setupMenu((vector<NamedObject *> *)(this->_masterState->getPlayerCompany()->getKnownPeople()));
 	WINDOW *my_menu_win = this->setupWindow(my_menu, "Applicants");
 	refresh();
 

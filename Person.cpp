@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Person::Person(string firstName, string lastName, int money) {
+Person::Person(string firstName, string lastName, int money) : NamedObject("person", firstName.c_str()) {
 	this->_firstName = firstName;
 	this->_lastName = lastName;
 	this->_money = money;

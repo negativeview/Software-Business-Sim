@@ -146,6 +146,9 @@ int main(int argc, char *argv[]) {
 			case 'i':
 				masterState->executeCommand("interview");
 				break;
+			case 'p':
+				masterState->executeCommand("project");
+				break;
 			case 's':
 				masterState->clearMessages();
 				masterState->executeCommand("status");
