@@ -1,6 +1,6 @@
 #include "Platform.h"
 
-Platform::Platform(string name) {
+Platform::Platform(string name) : RequirementProviderConsumer("platform", name.c_str()) {
 	this->_name = name;
 }
 

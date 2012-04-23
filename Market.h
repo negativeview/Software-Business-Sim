@@ -1,9 +1,9 @@
 #ifndef MARKET_H
 #define MARKET_H
 
-#include "NamedObject.h"
+#include "RequirementProviderConsumer.h"
 
-class Market : public NamedObject {
+class Market : public RequirementProviderConsumer {
 	public:
 		Market(const char *name);
 		~Market();

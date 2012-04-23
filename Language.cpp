@@ -1,6 +1,6 @@
 #include "Language.h"
 
-Language::Language(string name) {
+Language::Language(string name) : RequirementProviderConsumer("language", name.c_str()) {
 	this->_name = name;
 }
 

@@ -4,7 +4,9 @@
 #include <string>
 using std::string;
 
-class Platform {
+#include "RequirementProviderConsumer.h"
+
+class Platform : public RequirementProviderConsumer {
 	public:
 		Platform(string name);
 		~Platform();

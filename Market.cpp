@@ -1,6 +1,6 @@
 #include "Market.h"
 
-Market::Market(const char *name) : NamedObject("market", name) {
+Market::Market(const char *name) : RequirementProviderConsumer("market", name) {
 	
 }
 

@@ -29,7 +29,10 @@ MasterState::MasterState() {
 	this->_names = new NameContainer();
 
 	this->_allMarkets = new vector<Market *>();
-	this->_allMarkets->push_back(new Market("Old People"));
+
+	Market *oldPeopleMarket = new Market("Old People");
+	oldPeopleMarket->addRequirement("stability", 10);
+	this->_allMarkets->push_back(oldPeopleMarket);
 
 	this->_setupPlatforms();
 	this->_setupLanguages();
@@ -128,7 +131,11 @@ void MasterState::_setupLanguages() {
 
 void MasterState::_setupPlatforms() {
 	this->_allPlatforms = new vector<Platform *>();
-	this->_allPlatforms->push_back(new Platform("Browser"));
+
+	Platform *platform = new Platform("Browser");
+	platform->addProvides("mobility", 10);
+	this->_allPlatforms->push_back(platform);
+
 	this->_allPlatforms->push_back(new Platform("Console"));
 	this->_allPlatforms->push_back(new Platform("Desktop"));
 	this->_allPlatforms->push_back(new Platform("Mobile"));

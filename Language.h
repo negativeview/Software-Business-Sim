@@ -4,7 +4,9 @@
 #include <string>
 using std::string;
 
-class Language {
+#include "RequirementProviderConsumer.h"
+
+class Language : public RequirementProviderConsumer {
 	public:
 		Language(string name);
 		~Language();
